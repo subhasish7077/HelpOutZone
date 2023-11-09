@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %} alert-danger {% else %} alert-{{ message.tags }} {% endif %} alert-dismissible fade show" role="alert">
+            {{ message | safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+<section>
+    <div class="container m-5">
+        <div class="h1 text-center m-5 p-5">This is Home Page</div>
+    </div>
+</section>
+
+{% endblock body %}

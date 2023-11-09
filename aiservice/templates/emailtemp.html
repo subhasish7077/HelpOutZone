@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <section>
+    <div class="container mt-4 pt-3">
+        <div class="row">
+
+            <div class="col-md-9 m-auto">
+                <div class="card">
+                    <div class="card-header text-center h1">
+                        <div class="mt-3">
+                            Email Generator
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url "aiservice:send_email" %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-outline mb-4">
+                                <textarea name="prompt" cols="10" rows="2" class="form-control" placeholder="Example: Write an email to your manager providing an update on the progress of your project.">{{prompt}}</textarea>
+                                <label class="form-label h6" for="prompt">Email Prompt</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="email" class="form-control" name="to">
+                                <label class="form-label h6">To:</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="email" class="form-control" name="cc" placeholder="Enter all email separated by comma" multiple>
+                                <label class="form-label">CC</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" class="form-control" name="subject" value="{{subject}}">
+                                <label class="form-label h6">Subject:</label>
+                            </div>
+                            <div class="form-outline mb-4" style="width: 100%;">
+                                {{form.body}}
+                            </div>
+                                <label for="FileMultiple" class="form-label">Attach Files</label>
+                                <input class="form-control" type="file" id="formFileMultiple" multiple />
+                            <!-- Submit button -->
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-primary btn-block mb-4" name="submit_btn" value="generate">Generate Mail</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-primary btn-block mb-4" name="submit_btn" value="send">Send Mail</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="card" style="height: 100%;">
+                    <div class="card-header text-center h4">
+                        <div class="mt-3">
+                            Generator History
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for emails in email_history %}
+                            <div class="card border border-dark mx-0 my-2" style="background-color: rgb(236, 236, 236); box-shadow: 5px 5px 5px rgb(106, 106, 106)">
+                                <a href="{% url 'aiservice:emailbyid' emails.id %}" style="text-decoration: none;">
+                                <div class="card-body" style="padding:10px 10px 10px 10px; overflow:hidden; white-space: nowrap;text-overflow: ellipsis;">
+                                    <div class="">
+                                        {{emails.subject}}
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                            <!-- Pagination -->
+                            <div class="col">
+                                {% if email_history.has_other_pages %}
+                                <ul class="pagination pagination-circle">
+                                    <li class="page-item {% if email_history.number == 1 %} disabled {% endif %}">
+                                        <a class="page-link" href="?page=1">&larr; First</a>
+                                    </li>
+
+                                    {% if email_history.number == email_history.paginator.num_pages%}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{email_history.previous_page_number | add:"-1"}}">{{email_history.previous_page_number | add:"-1"}}</a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% if email_history.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{email_history.previous_page_number}}">{{email_history.previous_page_number}}</a>
+                                    </li>
+                                    {% endif %}
+
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="?page={{email_history.number}}">{{email_history.number}}<span class="visually-hidden">(current)</span></a>
+                                    </li>
+
+                                    {% if email_history.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{content_history.next_page_number}}">{{content_history.next_page_number}}</a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% if email_history.number == 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{content_history.next_page_number | add:"1"}}">{{content_history.next_page_number | add:"1"}}</a>
+                                        </li>
+                                    {% endif %}
+
+                                    <li class="page-item {% if email_history.number == email_history.paginator.num_pages%} disabled {% endif %}">
+                                        <a class="page-link" href="?page={{email_history.paginator.num_pages}}">Last &rarr;</a>
+                                    </li>
+                                </ul>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

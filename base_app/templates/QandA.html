@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container mt-4" style="display: flex;">
+    <div class="row">
+        <div class="col-8 m-auto p-2" style="height: 100%;">
+            <div class="" style="background-color: rgb(248, 247, 247); box-shadow: gray 0px 5px 5px 5px;">
+                <div class="row">
+                    <div class="col-sm-5 fs-3 ms-2 p-2 ps-5">
+                        Top Questions:
+                    </div>
+                    <div class="col-6 d-flex justify-content-end align-items-center m-1">
+                            <a href="" class="btn btn-primary btn-rounded">Ask Question</a>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-item-center m-1">
+                        <div class="col-10 m-1">
+                            <form class="d-flex input-group w-auto">
+                                <input  type="search"  class="form-control btn-rounded"  placeholder="Search"  aria-label="Search"/>
+                                <button class="btn btn-outline-primary btn-rounded" type="button" data-mdb-ripple-color="dark"> <i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="hr mt-2" style="border-top: 2px solid black;"></div>
+        
+            <div class="my-2" id="QuestionsList">
+                <div class="bg-light p-2" style="box-shadow: gray 0px 5px 5px 5px; border-radius: 15px;" >
+                    {% for question in questions %}
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="d-flex flex-column text-end">
+                                    <div class="question_overview pt-1">{{question.Views}} Views</div>
+                                    <div class="question_overview pt-1">100 answers</div>
+                                    <div class="question_overview pt-1">123K Upvotes</div>
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <div class="mt-1 lh-sm question_style" id="Question" style="display: flex; align-items: center;">
+                                    <a class="" href="#">{{question.title}}</a>
+                                </div>
+                                <div>
+                                    <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 my-1 mx-2">{{question.author.first_name}}</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 my-1 mx-2">spsp</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 my-1 mx-2">spsp</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 my-1 mx-2">spsp</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 my-1 mx-2">spsp</a>
+                                    <div style="text-align: right;"><h6 style="font-size: 10px; font-style: italic; color: rgb(155, 155, 155);">Asked By: <a href="#">sipu</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; On: 12/12/1212</h6></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr mt-2" style="border-top: 2px solid black;"></div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="col-4">
+            <div class="p-2 me-1" style=" max-width:350px">
+                <div class="" style="background-color: rgb(248, 247, 247); box-shadow: gray 0px 5px 5px 5px;">
+                    <div class="row">
+                        <div class="m-1">
+                            <div class="col-sm-5 fs-3 mx-auto">
+                                Filters <i class=""></i>
+                            </div>
+                            <div class="col-12 m-1 ">
+                                <form class="input-group">
+                                    <div class="mx-auto">
+                                        <a href="#!" class="btn btn-outline-primary active my-1 px-2 py-1 text-wrap" data-mdb-toggle="tooltip" title="Questions based on your interest">Interesting</a>
+                                        <a href="#!" class="btn btn-outline-primary my-1 px-2 py-1" data-mdb-toggle="tooltip" title="Questions with the most views, most answers, and highest score over the last few days">Hot</a>
+                                        <a href="#!" class="btn btn-outline-primary my-1 px-2 py-1" data-mdb-toggle="tooltip" title="Questions with the most views, most answers, and highest score over the last week">Week</a>
+                                        <a href="#!" class="btn btn-outline-primary my-1 px-2 py-1" data-mdb-toggle="tooltip" title="Questions with the most views, most answers, and highest score over the last Month">Month</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="mx-auto" style="border-top: 1px solid gray; width:93%; box-shadow:0px 0px 10px black"></div>
+                        <div class="mx-auto" style="border-top: 1px solid gray; width:93%; box-shadow:0px 0px 10px black"></div>
+                        <div class="mx-auto" style="border-top: 1px solid gray; width:93%; box-shadow:0px 0px 10px black"></div>
+                        <div class="m-1">
+                            <div class="col-sm-6 fs-4 mx-auto">
+                                Tag Catagories
+                            </div>
+                            <div class="col-12 m-1 ">
+                                <form class="input-group">
+                                    <div class="container-fluid">
+                                        <div class="row mx-auto">
+                                        {% for i in l %}
+                                            <a href="#!" class="btn btn-secondary m-1 p-1 text-wrap text-truncate  d-flex align-items-center" style="max-width: 90px;">{{i.name}}</a>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="mx-auto" style="border-top: 1px solid gray; width:93%; box-shadow:0px 0px 10px black"></div>
+                        <div class="mx-auto" style="border-top: 1px solid gray; width:93%; box-shadow:0px 0px 10px black"></div>
+                        <div class="mx-auto" style="border-top: 1px solid gray; width:93%; box-shadow:0px 0px 10px black"></div>
+                        <div class="m-1">
+                            <div class="col-sm-6 fs-4 mx-auto">
+                                Tags
+                            </div>
+                            <div class="col-12 m-1 ">
+                                <form class="input-group">
+                                    <div class="container-fluid">
+                                        <div class="row mx-auto">
+                                        {% for i in l %}
+                                            <a href="#!" class="btn btn-secondary m-1 p-1 text-wrap text-truncate  d-flex align-items-center" style="max-width: 90px;">{{i.name}}</a>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

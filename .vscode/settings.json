@@ -1,0 +1,12 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#202F3E",
+        "titleBar.activeBackground": "#2C4157",
+        "titleBar.activeForeground": "#F9FAFC"
+    },
+    "cSpell.words": [
+        "aiservice",
+        "authuser",
+        "emailgenerate"
+    ]
+}
