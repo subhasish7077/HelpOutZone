@@ -25,43 +25,34 @@
                 <li class="nav-item mx-3">
                     <a class="nav-link" href="#">About Us</a>
                 </li>
-                    <li class="nav-item mx-3">
-                        <a class="nav-link" href="#">Contact Us</a>
-                    </li>
-                    <li class="nav-item mx-3">
-                        <a class="nav-link" href="{% url 'base_app:QandA' %}">Q&A section</a>
-                    </li>
-                    <li class="nav-item mx-3">
-                        <a class="nav-link" href="{% url 'base_app:try' %}">Notes</a>
-                    </li>
-                    
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                            More
-                        </a>
-                        <!-- Dropdown menu -->
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="{% url "aiservice:send_email" %}">Easy Mail</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url "aiservice:content_generator" %}">Content Generation</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- Icons -->
-                <ul class="navbar-nav d-flex flex-row me-1">
-                    <li class="nav-item me-3 me-lg-0">
-                        {% if not request.user.is_authenticated %}
-                            <a class="btn btn-dark btn-rounded" href="{% url 'authuser:login' %}">Log in</a>
-                        {% else %}
-                            <a class="btn btn-dark btn-rounded" href="{% url 'authuser:logout' %}">Log Out</a>
-                        {% endif %}
-                    </li>
-                    <li class="nav-item me-3 me-lg-0">
-                    </li>
-                </ul>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="#">Contact Us</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="{% url 'base_app:try' %}">Notes</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="{% url 'base_app:QandA' %}">Q&A section</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="{% url "aiservice:send_email" %}">Easy Mail</a>
+                </li>
+                <li class="nav-item mx-3">
+                    <a class="nav-link" href="{% url "aiservice:content_generator" %}">Content Generation</a>
+                </li>
+            </ul>
+            <!-- Icons -->
+            <ul class="navbar-nav d-flex flex-row me-1">
+                <li class="nav-item me-3 me-lg-0">
+                    {% if not request.user.is_authenticated %}
+                        <a class="btn btn-dark btn-rounded" href="{% url 'authuser:login' %}">Log in</a>
+                    {% else %}
+                        <a class="btn btn-dark btn-rounded" href="{% url 'authuser:logout' %}">Log Out</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item me-3 me-lg-0">
+                </li>
+            </ul>
 
             </div>
         </div>
