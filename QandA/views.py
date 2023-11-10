@@ -7,7 +7,7 @@ def try_temp(request,pk):
     question = Question.objects.filter(id=pk)
     question = question[0]
     ans = question.answers.all()
-    print(question.tags)
+    print(question.tags.all()[0].name)
     return render(request, 'try.html',{'answers':ans,'question':question})
 
 def QandA_temp(request):

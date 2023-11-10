@@ -42,11 +42,10 @@
                                     <a class="" href="{% url "QandA:try" question.id %}">{{question.title}}</a>
                                 </div>
                                 <div>
-                                    <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 my-1 mx-2">{{question.author.first_name}}</a>
-
-                                        <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 my-1 mx-2">tag</a>
-
-                                    <div style="text-align: right;"><h6 style="font-size: 10px; font-style: italic; color: rgb(155, 155, 155);">Asked By: <a href="#">sipu</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; On: 12/12/1212</h6></div>
+                                    {% for tag in question.tags.all %}
+                                        <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 mt-2 mx-1">{{tag}}</a>
+                                    {% endfor %}
+                                    <div style="text-align: right;"><h6 style="font-size: 10px; font-style: italic; color: rgb(155, 155, 155);">Asked By: <a href="#">{{question.author.first_name}}</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; On: 12/12/1212</h6></div>
                                 </div>
                             </div>
                         </div>
