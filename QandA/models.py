@@ -12,7 +12,7 @@ class TagCategory(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
-    category = models.ForeignKey(TagCategory, on_delete=models.CASCADE, related_name="tag_cat")
+    category = models.ForeignKey(TagCategory, on_delete=models.CASCADE, related_name="tags")
     
     class Meta:
         ordering=['category']
@@ -23,10 +23,10 @@ class Tag(models.Model):
 class Question(models.Model):
     title = models.CharField(max_length=1000)
     description = RichTextUploadingField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='asked_question')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questions')
     tags = models.ManyToManyField(Tag, related_name='question_tags')
     created_at = models.DateTimeField(auto_now_add=True)
-    votes = models.ManyToManyField(User, related_name='voted_questions')
+    votes = models.ManyToManyField(User, related_name='Ques_votes')
     views = models.ManyToManyField(User, related_name='viewed')
 
     def __str__(self):
@@ -34,10 +34,10 @@ class Question(models.Model):
 
 class Answer(models.Model):
     content = RichTextUploadingField()
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answered_questions')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    votes = models.ManyToManyField(User, related_name='voted_answers')
+    votes = models.ManyToManyField(User, related_name='ans_votes')
 
     def __str__(self):
         return f"Answer to {self.question.title}"

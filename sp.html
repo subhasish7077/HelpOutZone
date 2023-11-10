@@ -27,10 +27,10 @@
       <div>
         <!-- Like and Dislike buttons for the question -->
         <button type="button" class="btn btn-light border-primary">
-          <i class="fas fa-arrow-up"></i>
+          <i class="fas fa-arrow-up text-primary"></i>
         </button>
-        <button type="button" class="btn btn-light ml-2">
-          <i class="fas fa-arrow-down"></i>
+        <button type="button" class="btn btn-light ml-2 border-danger">
+          <i class="fas fa-arrow-down text-danger"></i>
         </button>
         <!-- Display the upvote and downvote counts -->
         <span class="ml-2">Likes: 10 | Dislikes: 2</span>
@@ -46,54 +46,83 @@
 
   <!-- Displaying Answers with Like and Dislike buttons -->
   <div class="media mb-4" style="background-color: #ffffff;">
+    <!-- Like and Dislike buttons for the answer -->
+    <div class="d-flex flex-column align-items-center">
+      <button type="button" class="btn btn-light border-primary mb-2">
+        <i class="fas fa-arrow-up text-primary"></i>
+      </button>
+      <button type="button" class="btn btn-light border-danger">
+        <i class="fas fa-arrow-down text-danger"></i>
+      </button>
+      <!-- Display the upvote and downvote counts for the answer -->
+      <span class="mt-2">Likes: 5 | Dislikes: 1</span>
+    </div>
     <img src="user-avatar.jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 50px;">
     <div class="media-body">
       <h5 class="mt-0">Answerer's Username</h5>
-      <div class="d-flex justify-content-between align-items-center">
-        <!-- Like and Dislike buttons for the answer -->
-        <button type="button" class="btn btn-light border-primary">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <button type="button" class="btn btn-light border-primary ml-2">
-          <i class="fas fa-arrow-down"></i>
-        </button>
-        <!-- Display the upvote and downvote counts for the answer -->
-        <span class="ml-2">Likes: 5 | Dislikes: 1</span>
-      </div>
       <p>This is an answer to the question. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
     </div>
   </div>
 
-  <!-- Additional Answers -->
+  <!-- Another Answer -->
   <div class="media mb-4" style="background-color: #ffffff;">
+    <!-- Like and Dislike buttons for the answer -->
+    <div class="d-flex flex-column align-items-center">
+      <button type="button" class="btn btn-light border-primary mb-2">
+        <i class="fas fa-arrow-up text-primary"></i>
+      </button>
+      <button type="button" class="btn btn-light border-danger">
+        <i class="fas fa-arrow-down text-danger"></i>
+      </button>
+      <!-- Display the upvote and downvote counts for the answer -->
+      <span class="mt-2">Likes: 8 | Dislikes: 3</span>
+    </div>
     <img src="user-avatar.jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 50px;">
     <div class="media-body">
       <h5 class="mt-0">Another Answerer</h5>
-      <div class="d-flex justify-content-between align-items-center">
-        <!-- Like and Dislike buttons for the answer -->
-        <button type="button" class="btn btn-light border-primary">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <button type="button" class="btn btn-light border-primary ml-2">
-          <i class="fas fa-arrow-down"></i>
-        </button>
-        <!-- Display the upvote and downvote counts for the answer -->
-        <span class="ml-2">Likes: 8 | Dislikes: 3</span>
-      </div>
       <p>Another answer to the question. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
     </div>
   </div>
 
+  <!-- Yet Another Answer -->
   <div class="media mb-4" style="background-color: #ffffff;">
+    <!-- Like and Dislike buttons for the answer -->
+    <div class="d-flex flex-column align-items-center">
+      <button type="button" class="btn btn-light border-primary mb-2">
+        <i class="fas fa-arrow-up text-primary"></i>
+      </button>
+      <button type="button" class="btn btn-light border-danger">
+        <i class="fas fa-arrow-down text-danger"></i>
+      </button>
+      <!-- Display the upvote and downvote counts for the answer -->
+      <span class="mt-2">Likes: 12 | Dislikes: 0</span>
+    </div>
     <img src="user-avatar.jpg" class="mr-3 rounded-circle" alt="User Avatar" style="width: 50px;">
     <div class="media-body">
-      <h5 class="mt-0">Third Answerer</h5>
-      <div class="d-flex justify-content-between align-items-center">
-        <!-- Like and Dislike buttons for the answer -->
-        <button type="button" class="btn btn-light border-primary">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <button type="button" class="btn btn-light ml-2">
-          <i class="fas fa-arrow-down"></i>
-        </button>
-        <!--
+      <h5 class="mt-0">Yet Another Answerer</h5>
+      <p>Yet another answer to the question. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    </div>
+  </div>
+
+  <!-- Answer Form -->
+  <div class="card mt-4" style="background-color: #ffffff;">
+    <div class="card-body">
+      <h4 class="card-title">Your Answer</h4>
+      <form>
+        <div class="form-group">
+          <label for="answerTextarea">Write your answer:</label>
+          <textarea class="form-control" id="answerTextarea" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Answer</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

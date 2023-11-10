@@ -2,5 +2,6 @@ from django.urls import path
 from . import views
 app_name = 'QandA'
 urlpatterns = [
-    path('tags/',views.QuestionUpdateView.as_view(),name='tags'),
+    path('sp/<pk>',views.try_temp,name='try'),
+    path('QandA/',views.QandA_temp,name='QandA'),
 ]
