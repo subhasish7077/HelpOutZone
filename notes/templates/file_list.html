@@ -1,8 +1,6 @@
-<!-- file_list.html -->
-{% extends 'base.html' %}
-
+{% extends 'nav2.html' %}
 {% block body %}
-{% include 'nav2.html' %}
+<div class="container">
   <h2>File List</h2>
   <ul>
     {% for file in files %}
@@ -12,4 +10,5 @@
       </li>
     {% endfor %}
   </ul>
+</div>
 {% endblock body %}
