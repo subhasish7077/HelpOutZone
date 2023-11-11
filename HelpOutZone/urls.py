@@ -25,6 +25,7 @@ urlpatterns = [
     path("",include("authuser.urls")),
     path("",include("aiservice.urls")),
     path("",include("QandA.urls")),
+    path("",include("notes.urls")),
     path("ckeditor/",include('ckeditor_uploader.urls')),
 
 ]

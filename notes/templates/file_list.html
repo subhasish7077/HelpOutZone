@@ -1,0 +1,15 @@
+<!-- file_list.html -->
+{% extends 'base.html' %}
+
+{% block body %}
+{% include 'nav2.html' %}
+  <h2>File List</h2>
+  <ul>
+    {% for file in files %}
+      <li>
+        {{ file.file.name }}
+        (<a href="{% url 'notes:download_file' file.id %}">Download</a>)
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock body %}
