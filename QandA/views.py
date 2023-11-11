@@ -2,16 +2,16 @@ from django.shortcuts import render
 from django.views.generic import ListView, UpdateView, FormView
 from .models import *
 # Create your views here.
-def try_temp(request,pk):
+def get_questionByID(request,pk):
     print(pk)
     question = Question.objects.filter(id=pk)
     question = question[0]
-    ans = question.answers.all()
-    print(question.tags.all()[0].name)
-    return render(request, 'try.html',{'answers':ans,'question':question})
+    answers = question.answers.all()
 
-def QandA_temp(request):
-    l = list(TagCategory.objects.all())
-    l.sort(key=lambda x:x.name)
-    questions = Question.objects.all()
-    return render(request, 'QandA.html', {'l':l,'questions':questions})
+    return render(request, 'try.html',{'answers':answers,'question':question})
+
+def Questionsview(request):
+    tag_categories = list(TagCategory.objects.all())
+    tag_categories.sort(key=lambda x:x.name)
+    questions = Question.objects.all().order_by('-created_at')
+    return render(request, 'QandA.html', {'tag_categories':tag_categories,'questions':questions})
