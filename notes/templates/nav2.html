@@ -1,16 +1,14 @@
-<!-- <nav>
-    {% if user.is_authenticated %}
-    <a href="{% url 'notes:upload_file' %}">Upload File</a>
-    <a href="{% url 'notes:file_list' %}">File List</a>
-    <a href="{% url 'authuser:logout' %}">Logout</a>
-    {% else %}
-    <a href="{% url 'authuser:login' %}">Login</a>
-    <a href="{% url 'authuse:register' %}">Register</a>
-    {% endif %}
-</nav> -->
-<!-- Collapsible wrapper -->
-<nav class="nav navbar-expand-lg borter flex-column" style="background-color:#ffffff;">
-    <a class="nav-link nav-item " href="{% url 'notes:upload_file' %}">Upload File</a>
-    <a class="nav-link nav-item " href="{% url 'notes:file_list' %}">File List</a>
-    <a class="nav-link nav-item " href="#">Link</a>
-</nav>
+
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'notes:upload_file' %}">Upload File</a>
+                <a href="{% url 'notes:file_list' %}">File List</a>
+                <a href="{% url 'authuser:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'authuser:login' %}">Login</a>
+                <a href="{% url 'authuse:register' %}">Register</a>
+            {% endif %}
+        </nav>
+   
+
+
