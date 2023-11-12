@@ -5,7 +5,6 @@ from .views import *
 app_name = 'authuser'
 
 urlpatterns = [
-    path('login/',login_page,name='login'),
+    path('login/',login_register,name='login'),
     path('logout/',logout_page,name='logout'),
-    path('registration/',register,name='register'),
 ]

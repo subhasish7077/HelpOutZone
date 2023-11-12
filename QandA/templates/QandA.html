@@ -16,16 +16,60 @@
                 <div class="col d-flex justify-content-center align-item-center m-1">
                     <div class="col-12 m-1 px-4">
                         <form class="d-flex input-group w-auto">
-                            <input type="search" class="form-control rounded border-primary border-2 border-right-0"
-                                placeholder="Search" aria-label="Search" />
-                            <button class="btn btn-outline-primary btn-rounded" type="button"
-                                data-mdb-ripple-color="dark"> <i class="fas fa-search"></i></button>
+                            <div class="form-outline">
+                                <input type="search" class="form-control"
+                                    placeholder="Search" aria-label="Search" />
+                                <label class="form-label" for="prompt">Search</label>
+                                
+                            </div><button class="btn btn-outline-primary btn-rounded" type="button"
+                                    data-mdb-ripple-color="dark"> <i class="fas fa-search"></i></button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Filters -->
+        <div class="mt-1" style="background-color: rgb(248, 247, 247); box-shadow: gray 0px 5px 5px 5px;">
+            <form method="get" class="mt-1 p-1 pt-2">
+                <div class="row mx-auto">
+                    <div class="col-6 mx-auto">
+                        <div class="form-group">
+                            <div>
+                                <label for="tagCategory" class="fs-5">Tag Category</label>
+                                <select id="tagCategory" name="tag_category" class="form-select">
+                                    <option value="" selected>All Categories</option>
+                                    {% for category in tag_categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mt-1 pt-1">
+                                <label for="tagCategory" class="fs-5">Sort By</label>
+                                <select id="" name="" class="form-select">
+                                    <option value="" selected>Highest Votes</option>
+                                    <option value="">Highest Views</option>
+                                    <option value="">Date Created (newest first)</option>
+                                    <option value="">Date Created (Oldest first)</option>
+                                </select>
+                            </div>
 
+                        </div>
+                    </div>
+                    <div class="col-6 mx-auto">
+                        <div class="form-group mx-auto pt-0">
+                            <label for="tags" class="fs-5">Tags</label>
+                            <select id="tags" name="tags" class="form-select form-select-lg" style="height: 20vh;"
+                                multiple>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-12 pb-3 d-flex justify-content-end align-items-end">
+                        <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
 
 
@@ -69,8 +113,39 @@
                 {% endfor %}
             </div>
         </div>
-
     </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to fetch tags based on the selected tag category
+        function updateTags() {
+            var selectedCategory = $('#tagCategory').val();
+            // Make an AJAX request to your backend to fetch tags for the selected category
+            $.ajax({
+                url: 'http://127.0.0.1:8000/get_tags/',  // Replace with your actual endpoint to get tags
+                data: { category_id: selectedCategory },
+                method: 'GET',
+                success: function (data) {
+                    $('#tags').empty();
+                    $('#tags').append('<option value="">' + 'All tags' + '</option>');
+                    for (var i = 0; i < data.tags.length; i++) {
+                        $('#tags').append('<option value="' + data.tags[i].id + '">' + data.tags[i].name + '</option>');
+                    }
+                },
+                error: function (error) {
+                    console.log('Error fetching tags:', error);
+                }
+            });
+        }
+        // Event listener for changes in the tag category dropdown
+        $('#tagCategory').change(function () {
+            updateTags();
+        });
+        updateTags();
+    });
+</script>
 
 {% endblock body %}
