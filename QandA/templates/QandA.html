@@ -1,155 +1,154 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="container mt-4" style="display: flex;">
-
-    <div class="col-11 m-auto p-2" style="height: 100%;">
-        <div class="" style="background-color: rgb(248, 247, 247); box-shadow: gray 0px 5px 5px 5px;">
-            <div class="row">
-                <div class="col-sm-6 fs-3 ms-2 p-2 ps-5">
-                    Top Questions:
-                </div>
-                <div class="col-5 d-flex justify-content-end align-items-center m-1">
-                    <a href="" class="btn btn-primary btn-rounded">Ask Question</a>
-                </div>
-                <div class="col-12 d-flex justify-content-center align-item-center m-1">
-                    <div class="col-12 m-1 px-4">
-                        <form class="d-flex input-group w-auto">
-                            <div class="form-outline">
-                                <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
-                                <label class="form-label" for="prompt">Search</label>
-
-                            </div><button class="btn btn-outline-primary btn-rounded" type="button"
-                                data-mdb-ripple-color="dark"> <i class="fas fa-search"></i></button>
-                        </form>
+    <div class="container mt-4" style="display: flex;">
+        <div class="col-11 m-auto p-2" style="height: 100%;">
+            <div class="" style="background-color: rgb(248, 247, 247); box-shadow: gray 0px 5px 5px 5px;">
+                <div class="row">
+                    <div class="col-sm-6 fs-3 ms-2 p-2 ps-5">
+                        Top Questions:
                     </div>
-                </div>
-                <div class="col-11 my-2 mx-auto">
+                    <div class="col-5 d-flex justify-content-end align-items-center m-1">
+                        <a href="" class="btn btn-primary btn-rounded">Ask Question</a>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center align-item-center m-1">
+                        <div class="col-12 m-1 px-4">
+                            <form class="d-flex input-group w-auto" method="get" action="{% url "QandA:questions_list" %}">
+                                <div class="form-outline">
+                                    <input type="search" name="question_search" class="form-control" placeholder="Search" value="{{search}}" aria-label="Search" />
+                                    <label class="form-label" for="prompt">Search</label>
+                                </div>
+                                <button class="btn btn-outline-primary btn-rounded" type="submit"><i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
                     <!-- Filters -->
-                    <div class=" btn btn-block fs-6 d-flex justify-content-center btn-outline-secondary align-items-center" data-bs-toggle="collapse"
-                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Filter &nbsp;<i class="fa fa-filter"></i>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                        <form method="get" action="{% url "QandA:questions_list" %}" class="p-1">
-                            <div class="row mx-auto">
-                                <div class="col-6 mx-auto">
-                                    <div class="form-group">
-                                        <div>
-                                            <label for="tagCategory" class="fs-5">Tag Category</label>
-                                            <select id="tagCategory" name="tag_category" class="form-select">
-                                                <option value="" selected>All Categories</option>
-                                                {% for category in tag_categories %}
-                                                <option value="{{ category.id }}">{{ category.name }}</option>
-                                                {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <div class="mt-1 pt-1">
-                                                    <label for="tagCategory" class="fs-5">Sort By</label>
-                                                    <select id="" name="sort_by" class="form-select">
-                                                        <option value="votes" {% if sort == 'votes' %} selected {% endif %}>Highest Votes</option>
-                                                        <option value="views" {% if sort == 'views' %} selected {% endif %}>Highest Views</option>
-                                                        <option value="-created_at" {% if sort == '-created_at' %} selected {% endif %}>Date Created (newest first)</option>
-                                                        <option value="created_at" {% if sort == 'created_at' %} selected {% endif %}>Date Created (Oldest first)</option>
-                                                    </select>
-                                                </div>
-                                        
-                                            </div>
-                                        </div>
-                                        <div class="col-6 mx-auto">
-                                            <div class="form-group mx-auto pt-0">
-                                                <label for="tags" class="fs-5">Tags</label>
-                                                <select id="tags" name="tags" class="form-select form-select-lg"
-                                                    style="height: 20vh;" multiple>
+                    <div class="col-11 my-2 mx-auto">
+                        <div class=" btn btn-block fs-6 d-flex justify-content-center btn-outline-secondary align-items-center"
+                            data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false"
+                            aria-controls="collapseExample">
+                            Filter &nbsp;<i class="fa fa-filter"></i>
+                        </div>
+                        <div class="collapse" id="collapseExample">
+                            <form method="get" action="{% url "QandA:questions_list" %}" class="p-1">
+                                <div class="row mx-auto">
+                                    <div class="col-6 mx-auto">
+                                        <div class="form-group">
+                                            <div>
+                                                <label for="tagCategory" class="fs-5">Tag Category</label>
+                                                <select id="tagCategory" name="tagcategory" class="form-select">
+                                                    <option value="" selected>All Categories</option>
+                                                    {% for category in tag_categories %}
+                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
-                                    
+                                            <div class="mt-1 pt-1">
+                                                <label for="tagCategory" class="fs-5">Sort By</label>
+                                                <select id="" name="sort_by" class="form-select">
+                                                    <option value="votes" {% if sort == 'votes' %} selected {% endif %}>
+                                                        Highest Votes</option>
+                                                    <option value="views" {% if sort == 'views' %} selected {% endif %}>
+                                                        Highest Views</option>
+                                                    <option value="-created_at" {% if sort == '-created_at' %} selected {% endif %}>Date Created (newest first)</option>
+                                                    <option value="created_at" {% if sort == 'created_at' %} selected {% endif%}>Date Created (Oldest first)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mx-auto">
+                                        <div class="form-group mx-auto pt-0">
+                                            <label for="tags" class="fs-5">Tags</label>
+                                            <select id="tags" name="tags" class="form-select form-select-lg"
+                                                style="height: 23vh;" multiple>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pb-3 d-flex justify-content-end align-items-end">
+                                        <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+                                    </div>
                                 </div>
-                                <div class="col-12 pb-3 d-flex justify-content-end align-items-end">
-                                    <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
 
-        <!-- <div class="hr mt-3" style="border-top: 2px solid black;"></div> -->
+            <!-- <div class="hr mt-3" style="border-top: 2px solid black;"></div> -->
 
 
-        <div class="my-2" id="QuestionsList">
-            <div class="bg-light p-2" style="box-shadow: gray 0px 5px 5px 5px; border-radius: 15px;">
-                {% for question in questions %}
-                <div class="row">
-                    <div class="col-1">
-                        <div class="d-flex flex-column text-end">
-                            <div class="question_overview pt-1" style="color: rgb(23, 23, 23);">
-                                {{question.views.all|length}} Views</div>
-                            <div class="question_overview pt-1" style="color: rgb(23, 23, 23);">
-                                {{question.answers.all|length}} answers</div>
-                            <div class="question_overview pt-1" style="color: rgb(23, 23, 23);">
-                                {{question.votes.all|length}} votes</div>
+            <div class="my-2" id="QuestionsList">
+                <div class="bg-light p-2" style="box-shadow: gray 0px 5px 5px 5px; border-radius: 15px;">
+                    {% for question in questions %}
+                    <div class="row">
+                        <div class="col-1">
+                            <div class="d-flex flex-column text-end">
+                                <div class="question_overview pt-1" style="color: rgb(23, 23, 23);">
+                                    {{question.views.all|length}} Views</div>
+                                <div class="question_overview pt-1" style="color: rgb(23, 23, 23);">
+                                    {{question.answers.all|length}} answers</div>
+                                <div class="question_overview pt-1" style="color: rgb(23, 23, 23);">
+                                    {{question.votes.all|length}} votes</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-11">
-                        <div class="mt-1 lh-sm question_style" id="Question"
-                            style="display: flex; align-items: center;">
-                            <a class="" href="{% url "QandA:Question_byid" question.id %}">{{question.title}}</a>
-                        </div>
-                        <div>
-                            {% for tag in question.tags.all %}
-                            <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 mt-2 mx-1">{{tag}}</a>
-                            {% endfor %}
-                            <div style="text-align: right;">
-                                <h6 class="me-2 pe-2"
-                                    style="font-size: 10px; font-style: italic; color: rgb(54, 54, 54);">Asked By:
-                                    <a href="#">{{question.author.first_name}}</a>&nbsp;&nbsp;|&nbsp;&nbsp; On:
-                                    {{question.created_at|date}}
-                                </h6>
+                        <div class="col-11">
+                            <div class="mt-1 lh-sm question_style" id="Question"
+                                style="display: flex; align-items: center;">
+                                <a class="" href="{% url "QandA:Question_byid" question.id %}">{{question.title}}</a>
+                            </div>
+                            <div>
+                                {% for tag in question.tags.all %}
+                                <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 mt-2 mx-1">{{tag}}</a>
+                                {% endfor %}
+                                <div style="text-align: right;">
+                                    <h6 class="me-2 pe-2"
+                                        style="font-size: 10px; font-style: italic; color: rgb(54, 54, 54);">Asked By:
+                                        <a href="#">{{question.author.first_name}}</a>&nbsp;&nbsp;|&nbsp;&nbsp; On:
+                                        {{question.created_at|date}}
+                                    </h6>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="hr mt-2" style="border-top: 2px solid rgb(193, 193, 193);"></div>
+                    {% endfor %}
                 </div>
-                <div class="hr mt-2" style="border-top: 2px solid rgb(193, 193, 193);"></div>
-                {% endfor %}
             </div>
         </div>
     </div>
-</div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Function to fetch tags based on the selected tag category
-        function updateTags() {
-            var selectedCategory = $('#tagCategory').val();
-            // Make an AJAX request to your backend to fetch tags for the selected category
-            $.ajax({
-                url: 'http://127.0.0.1:8000/get_tags/',  // Replace with your actual endpoint to get tags
-                data: { category_id: selectedCategory },
-                method: 'GET',
-                success: function (data) {
-                    $('#tags').empty();
-                    <!-- $('#tags').append('<option value="">' + 'All tags' + '</option>'); -->
-                    for (var i = 0; i < data.tags.length; i++) {
-                        $('#tags').append('<option value="' + data.tags[i].id + '">' + data.tags[i].name + '</option>');
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to fetch tags based on the selected tag category
+            function updateTags() {
+                var selectedCategory = $('#tagCategory').val();
+                // Make an AJAX request to your backend to fetch tags for the selected category
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/get_tags/',  // Replace with your actual endpoint to get tags
+                    data: { category_id: selectedCategory },
+                    method: 'GET',
+                    success: function (data) {
+                        $('#tags').empty();
+                        <!-- $('#tags').append('<option value="">' + 'All tags' + '</option>'); -->
+                        for (var i = 0; i < data.tags.length; i++) {
+                            $('#tags').append('<option value="' + data.tags[i].id + '">' + data.tags[i].name + '</option>');
+                        }
+                    },
+                    error: function (error) {
+                        console.log('Error fetching tags:', error);
                     }
-                },
-                error: function (error) {
-                    console.log('Error fetching tags:', error);
-                }
+                });
+            }
+            // Event listener for changes in the tag category dropdown
+            $('#tagCategory').change(function () {
+                updateTags();
             });
-        }
-        // Event listener for changes in the tag category dropdown
-        $('#tagCategory').change(function () {
             updateTags();
         });
-        updateTags();
-    });
-</script>
+    </script>
 
 {% endblock body %}
