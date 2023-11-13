@@ -46,7 +46,7 @@ EXTERNAL_APPS = [
     "QandA",
     "ckeditor_uploader",
     "aiservice",
-    "notes"
+    "notes",
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + EXTERNAL_APPS
