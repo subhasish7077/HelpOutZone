@@ -1,14 +1,43 @@
-from turtle import title
 from django.shortcuts import redirect, render
-from django.db.models.functions import Length
+from django.utils.html import strip_tags
 from django.db.models import Count
+from django.contrib import messages
 from django.urls import reverse
 from .models import *
+from .forms import *
+import re
 from django.http import JsonResponse, HttpResponseRedirect
 # Create your views here.
-
+    
 def get_questionByID(request,pk):
     question = Question.objects.filter(id=pk)[0]
+    form = AnswerForm()
+
+    def add_answer():
+        if request.method == 'POST':
+            form = AnswerForm(request.POST)
+            content = ""
+            message = ""
+            if form.is_valid():
+                content = form.cleaned_data.get('content')
+                tempcontent = re.sub(r'&nbsp;|&#160;', ' ', content)
+            if strip_tags(tempcontent).strip():
+                try:
+                    obj = Answer.objects.create(
+                        content = content,
+                        question = question,
+                        author = request.user
+                    )
+                    obj.save()
+                    message = "Answer submitted successfully"
+                except Exception as e:
+                    print(f"save {e}")
+            else:
+                message = "Content is empty"
+            if message :
+                messages.success(request,message)
+    add_answer()
+    
     def update_views(question):
         if question.views.filter(id = request.user.id).exists():
             pass
@@ -16,7 +45,7 @@ def get_questionByID(request,pk):
             question.views.add(request.user.id)
     update_views(question)        
     answers = question.answers.all()
-    return render(request, 'try.html',{'answers':answers,'question':question})
+    return render(request, 'Questiondetails.html',{'answers':answers,'question':question,'form':form})
 
 def Questionsview(request):
     tag_categories = list(TagCategory.objects.all())
@@ -37,6 +66,7 @@ def Questionsview(request):
 
 def get_tags(request):
     category_id = request.GET.get('category_id')
+    
     if category_id:
         tags = Tag.objects.filter(category=category_id).values('id', 'name')
     else:

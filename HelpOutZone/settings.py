@@ -99,6 +99,53 @@ CKEDITOR_CONFIGS={
                 'items': ['Source']
             }
         ],  
+    },
+    'config2':{
+        'height':'150px',
+        'toolbar': [
+            {
+                'name': 'basicstyles',
+                'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+            },
+            {
+                'name': 'colors',
+                'items': ['TextColor', 'BGColor']
+            },
+            {
+                'name': 'paragraph',
+                'items': ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock','NumberedList', 'BulletedList']
+            },
+            {
+                'name': 'insert',
+                'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']
+            },
+            {
+                'name': 'tools',
+                'items': ['Maximize', 'ShowBlocks']
+            },
+            {
+                'name': 'links',
+                'items': ['Link', 'Unlink', 'Anchor']
+            },
+            {
+                'name': 'editing',
+                'items': ['Find', 'Replace','SelectAll' ]
+            },
+            {
+                'name': 'document',
+                'items': ['Source']
+            },
+            {
+                'name': 'clipboard',
+                'items': ['-', 'Undo', 'Redo']
+            },
+            '/',
+            {
+                'name': 'styles',
+                'items': ['Styles', 'Format', 'Font', 'FontSize']
+            },
+            
+        ],
     }
 }
 

@@ -129,7 +129,7 @@ def handle_email(request):
                 messages.error(request, "error occurred")     
     
     form = emailgenerateForm(initial={'body':body})
-     # display email generator history using paginator
+    # display email generator history using paginator
     all_email_generated = emailGenerationDB.objects.filter(user=request.user).order_by('-generated_at')
     paginator = Paginator(all_email_generated, 6)
     page_number = request.GET.get("page")
@@ -166,8 +166,12 @@ def content_generation(request):
     paginator = Paginator(all_contents, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request,'contentGeneration.html',
-                  {'generated_content':content,'prompt':prompt, 'content_history':page_obj})
+    return render(
+                request,'contentGeneration.html',
+                {
+                    'generated_content':content,'prompt':prompt, 'content_history':page_obj
+                }
+                )
 
 @login_required(login_url='authuser:login')
 def get_content_byID(request,id):

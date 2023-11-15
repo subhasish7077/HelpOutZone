@@ -11,7 +11,8 @@
         "emailgenerate",
         "Heloput",
         "Qand",
-        "Questionsview"
+        "Questionsview",
+        "tempcontent"
     ],
-    "python.analysis.autoImportCompletions": true
+    "python.analysis.autoImportCompletions": false
 }
