@@ -28,8 +28,8 @@
             display: inline-block;
             padding: 10px 20px;
             text-decoration: none;
-            background-color: #4CAF50;
-            color: white;
+            
+            color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -86,14 +86,13 @@
         
 
     </style>
-    <title>Vertical Navbar</title>
+    <title>NOTES</title>
 </head>
 
 <body>
     {% include 'nav.html' %}
 <div class="navbar">
     {% if user.is_authenticated %}
-        <a class="button" href="{% url 'notes:posts' %}">Posts</a>
         <a class="button" href="{% url 'notes:upload_file' %}">Upload File</a>
         <a class="button" href="{% url 'notes:file_list' %}">File List</a>
         <a class="button" href="{% url 'authuser:logout' %}">Logout</a>
