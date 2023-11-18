@@ -116,4 +116,5 @@ def deleteanswer(request):
     answer = Answer.objects.filter(id=pk).first()
     question_id = answer.question.id
     answer.delete()
+    messages.success(request,"Answer Deleted Successfully")
     return redirect('QandA:Question_byid',pk=question_id)
