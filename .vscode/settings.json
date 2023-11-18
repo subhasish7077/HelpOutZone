@@ -8,10 +8,14 @@
         "aiservice",
         "authuser",
         "byid",
+        "deleteanswer",
         "emailgenerate",
         "Heloput",
         "Qand",
+        "Questiondetails",
         "Questionsview",
+        "tagcategories",
+        "tagcategory",
         "tempcontent"
     ],
     "python.analysis.autoImportCompletions": false

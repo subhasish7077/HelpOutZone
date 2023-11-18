@@ -12,12 +12,17 @@
 
 <!-- Question Details Section -->
 	<div class="container mt-4">
-		<div class="ps-2 pe-5 pb-4" style="background-color: #ffffff;">
+		<div class="ps-2 pe-5 pb-3" style="background-color: #ffffff;">
 			<div class="display-6 ps-5 pt-4 ms-5" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight:500; font-size:xx-large;">{{question.title}}</div>
-			<p class="lead ps-5 pt-1 ms-5">By {{question.author.first_name}} | {{question.created_at}}</p>
-			<div class="d-flex justify-content-between align-items-center">
-			</div>
-			<hr class="my-2">
+			<p class="ps-5 pt-1 ms-5 d-flex justify-content-between align-item-start" style="font-size: 20px; font-style: italic; color: rgb(54, 54, 54);">
+				<span class="">
+					<span class="px-1">Asked {{question.created_ago}}</span> 
+					<span class="px-1">|</span>
+					<span class="px-1">Viewed {{question.views.all|length}} 
+					{% if question.views.all|length > 1 %} times {% else %} time {% endif %} </span>
+				</span>	
+				<span class="mx-3">By <a href="#">{{question.author.first_name}}</a></span>
+			</p>
 			<div class="container">
 				<div class="row">
 					<div class="col-1">
@@ -51,10 +56,10 @@
 				</div>
 				{% if request.user == answer.author  %}
 				<div class=" col-6 d-flex justify-content-end">
-					<button type="button" class="btn btn-link p-1">
+					<button type="button" class="btn btn-link p-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						Edit
 					</button>
-					<button type="button" class="btn btn-link p-1">
+					<button type="button" id="delete_button{{answer.id}}" class="btn btn-link p-1" data-bs-toggle="modal" onclick="updatebuttonvalue('delete_button{{answer.id}}')" value='{{answer.id}}' data-bs-target="#deletemodal">
 						Delete
 					</button>
 				</div>
@@ -82,6 +87,60 @@
 		<hr>
 		{% endfor %}
 
+		<!-- Edit Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Subhasish
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Delete Modal -->
+		<div class="modal fade w-25 mx-auto" id="deletemodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deletemodalLabel">Confirm Deletion</h5>
+					</div>
+					<div class="modal-footer">
+						<form action="{% url "QandA:delete_answer" %}" method='get'>
+							<button type="submit" name="delete_button" id="delete_ans" class="btn btn-outline-primary">Yes</button>
+						</form>
+						<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		<!-- Answer Form -->
 		<div class="card mt-2 mb-4" style="background-color: #ffffff;">
 			<div class="card-body">
@@ -99,4 +158,17 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
+<script>
+    function updatebuttonvalue(id) {
+        // Get the value of Button 1
+        var button1Value = document.getElementById(id);
+		console.log(button1Value.value)
+        // Set the value of Button 2 to be the same as Button 1
+        document.getElementById('delete_ans').value=button1Value.value;
+    }
+</script>
 {% endblock body %}

@@ -47,9 +47,9 @@
                                             <div>
                                                 <label for="tagCategory" class="fs-5">Tag Category</label>
                                                 <select id="tagCategory" name="tagcategory" class="form-select">
-                                                    <option value="" selected>All Categories</option>
+                                                    <option value="" {% if tagcategories == -1 %} selected {% endif %}>All Categories</option>
                                                     {% for category in tag_categories %}
-                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                    <option value="{{ category.id }}" {% if category.id == tagcategories %} selected {% endif %}> {{category.name}} </option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
@@ -110,13 +110,13 @@
                             </div>
                             <div>
                                 {% for tag in question.tags.all %}
-                                <a href="#" class="btn btn-outline-secondary btn-rounded py-0 px-2 mt-2 mx-1">{{tag}}</a>
+                                <a href="{% url "QandA:get_question_by_tags" tag.id %}" class="btn btn-outline-secondary btn-rounded py-0 px-2 mt-2 mx-1">{{tag}}</a>
                                 {% endfor %}
                                 <div style="text-align: right;">
                                     <h6 class="me-2 pe-2"
                                         style="font-size: 10px; font-style: italic; color: rgb(54, 54, 54);">Asked By:
                                         <a href="#">{{question.author.first_name}}</a>&nbsp;&nbsp;|&nbsp;&nbsp; On:
-                                        {{question.created_at|date}}
+                                        {{question.created_ago}}
                                     </h6>
                                 </div>
                             </div>
