@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block body %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %} alert-danger {% else %} alert-{{ message.tags }} {% endif %} alert-dismissible fade show" role="alert">
+            {{ message | safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="container mt-4 pt-3">
+<!-- Pills navs -->
+<ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
+            aria-controls="pills-login" aria-selected="true">Login</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
+            aria-controls="pills-register" aria-selected="false">Register</a>
+    </li>
+</ul>
+<!-- Pills navs -->
+
+<!-- Pills content -->
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+        <!-- Login -->
+        <div class="col-sm-5 m-auto">
+            <div class="card">
+                <div class="card-header text-center h1">
+                    <div class="mt-3">
+                        Login
+                    </div>
+                    <div class="mt-4">
+                        <i class="p-2 px-2 fas fa-circle-user fa-2x" style="color: #000000"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="mx-auto w-75">
+                        {% csrf_token %}
+                        <div class="form-outline mb-3">
+                            <input type="text" class="form-control" name='email' required>
+                            <label class="form-label" for="password">Email</label>
+                        </div>
+                        <div class="form-outline mb-3">
+                            <input type="password" class="form-control" name='password' required>
+                            <label class="form-label" for="password">Password</label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                                <a href="#!">Forgot password?</a>
+                            </div>
+                        </div   
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                        <!-- Register buttons -->
+                        <div class="text-center nav-link">
+                            <p>Not a member? <a href="{% url "authuser:register" %}">Register</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+        <!-- Register -->
+        <div class="col-12 col-sm-8 col-md-5 m-auto">
+            <div class="card">
+                <div class="card-header text-center h1">
+                    <div class="mt-3">
+                        Registration Form
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="{% url "authuser:register" %}" method="POST">
+                        {% csrf_token %}
+
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-outline">
+                                    {{form.first_name}}
+                                    <label class="form-label" for="first_name">First name</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-outline">
+                                    {{form.last_name}}
+                                    <label class="form-label" for="last_name">Last name</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            {{form.username}}
+                            <label class="form-label" for="username">Username</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            {{form.email}}
+                            <label class="form-label" for="email">Email address</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            {{form.password}}
+                            <label class="form-label" for="password">Password</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            {{form.confirm_password}}
+                            <label class="form-label" for="confirm_password">Confirm Password</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            {{form.app_password}}
+                            <label class="form-label" for="app_password">App Password</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            {{form.openai_api_key}}
+                            <label class="form-label" for="app_password">Api Key</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+                        <div class="text-center nav-link">
+                            <p>Already a member! <a href="#!">Login Here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Pills content -->
+</div>
+
+{% endblock body %}

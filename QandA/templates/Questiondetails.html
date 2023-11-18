@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %} alert-danger {% else %} alert-{{ message.tags }} {% endif %} alert-dismissible fade show" role="alert">
+            {{ message | safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- Question Details Section -->
+	<div class="container mt-4">
+		<div class="ps-2 pe-5 pb-3" style="background-color: #ffffff;">
+			<div class="display-6 ps-5 pt-4 ms-5" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight:500; font-size:xx-large;">{{question.title}}</div>
+			<p class="ps-5 pt-1 ms-5 d-flex justify-content-between align-item-start" style="font-size: 20px; font-style: italic; color: rgb(54, 54, 54);">
+				<span class="">
+					<span class="px-1">Asked {{question.created_ago}}</span> 
+					<span class="px-1">|</span>
+					<span class="px-1">Viewed {{question.views.all|length}} 
+					{% if question.views.all|length > 1 %} times {% else %} time {% endif %} </span>
+				</span>	
+				<span class="mx-3">By <a href="#">{{question.author.first_name}}</a></span>
+			</p>
+			<div class="container">
+				<div class="row">
+					<div class="col-1">
+						<div class="d-flex flex-column align-items-center">
+							<button type="button" class="btn btn-light border-primary mb-2">
+								<i class="fas fa-arrow-up text-primary"></i>
+							</button>
+							<span class="mt-2">105</span>
+							<button type="button" class="btn btn-light border-danger">
+								<i class="fas fa-arrow-down text-danger"></i>
+							</button>
+							<!-- Display the upvote and downvote counts for the answer -->
+						</div>
+					</div>
+					<div class="col-11" style="background-color: #efefef; font-size:15px">
+						<p>{{question.description | safe}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Answers Section -->
+		<div class="fs-3">
+			{{answers|length}} Answers
+		</div>	
+		{% for answer in answers %}
+		<div class="py-4 ps-2 pe-5" style="background-color: #ffffff;">
+			<div class="fs-5 ms-5 ps-5 row">
+				<div class="col-6 d-flex justify-content-start ps-0 text-dark">
+					By:<a href="#">&nbsp;{{answer.author.first_name}}</a>
+				</div>
+				{% if request.user == answer.author  %}
+				<div class=" col-6 d-flex justify-content-end">
+					<button type="button" class="btn btn-link p-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						Edit
+					</button>
+					<button type="button" id="delete_button{{answer.id}}" class="btn btn-link p-1" data-bs-toggle="modal" onclick="updatebuttonvalue('delete_button{{answer.id}}')" value='{{answer.id}}' data-bs-target="#deletemodal">
+						Delete
+					</button>
+				</div>
+				{% endif %}
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-1">
+						<div class="d-flex flex-column align-items-center">
+							<button type="button" class="btn btn-light border-primary mb-2">
+								<i class="fas fa-arrow-up text-primary"></i>
+							</button>
+							<span class="mt-2">105</span>
+							<button type="button" class="btn btn-light border-danger">
+								<i class="fas fa-arrow-down text-danger"></i>
+							</button>
+						</div>
+					</div>
+					<div class="col-11" style="background-color: #efefef; font-size:15px">
+						<p>{{answer.content | safe}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		{% endfor %}
+
+		<!-- Edit Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Subhasish
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Delete Modal -->
+		<div class="modal fade w-25 mx-auto" id="deletemodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deletemodalLabel">Confirm Deletion</h5>
+					</div>
+					<div class="modal-footer">
+						<form action="{% url "QandA:delete_answer" %}" method='get'>
+							<button type="submit" name="delete_button" id="delete_ans" class="btn btn-outline-primary">Yes</button>
+						</form>
+						<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<!-- Answer Form -->
+		<div class="card mt-2 mb-4" style="background-color: #ffffff;">
+			<div class="card-body">
+				<h4 class="card-title">Your Answer</h4>
+				<form method="post" action="{% url "QandA:Question_byid" question.id %}">
+					{% csrf_token %}
+					<div class="form-label m-0">
+						<label for="answerTextarea">Write your answer:</label>
+					</div>
+					<div class="textarea form-outline mb-4 answerritchtext m-0 p-0">
+						{{form.content}}
+					</div>
+					<button type="submit" class="btn btn-primary btn-block">Submit Answer</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+<script>
+    function updatebuttonvalue(id) {
+        // Get the value of Button 1
+        var button1Value = document.getElementById(id);
+		console.log(button1Value.value)
+        // Set the value of Button 2 to be the same as Button 1
+        document.getElementById('delete_ans').value=button1Value.value;
+    }
+</script>
+{% endblock body %}
