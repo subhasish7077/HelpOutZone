@@ -2,12 +2,15 @@
 {% extends 'nav2.html' %}
 
 {% block body %}
-<div class="container">
-  <h2>Upload File</h2>
+
+
+
+  <h2>File Upload</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Upload</button>
   </form>
-</div>
+
+
 {% endblock %}
