@@ -6,8 +6,8 @@
             <!-- Navbar brand -->
             <a class="navbar-brand" href="{% url 'base_app:home page' %}">
                 {% load static %}
-                <img src="{% static 'logo.png' %}" alt="HeloputZone"
-                    style="aspect-ratio: 4/1; width:150px; mix-blend-mode:darken; border: 2px solid black; border-radius: 10px">
+                <img src="{% static 'logo2.png' %}" alt="HeloputZone"
+                    style="aspect-ratio: 3.5/1; width:150px; mix-blend-mode:darken; border-radius: 10px">
                 </a>
             <!-- Toggle button -->
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
@@ -26,7 +26,7 @@
                     <a class="nav-link" href="{% url 'base_app:about' %}">About Us</a>
                 </li>
                 <li class="nav-item mx-3">
-                    <a class="nav-link" href="#">Notes</a>
+                    <a class="nav-link" href="{% url 'notes:file_upload' %}">Notes</a>
                 </li>
                 <li class="nav-item mx-3">
                     <a class="nav-link" href="{% url 'QandA:questions_list' %}">Q&A section</a>
@@ -37,11 +37,11 @@
                 <li class="nav-item mx-3">
                     <a class="nav-link" href="{% url "aiservice:content_generator" %}">Content Generation</a>
                 </li>
+                {% if request.user.is_authenticated %}
                 <li class="nav-item mx-3">
-                    {% if request.user.is_authenticated %}
-                        {{request.user.first_name}}
-                    {% endif %}
-                </li>
+                        <a href="#" class="btn btn-success pt-2  pb-1 px-3">{{request.user.username}}</a>
+                    </li>
+                {% endif %}
             </ul>
             <!-- Icons -->
             <ul class="navbar-nav d-flex flex-row me-1">

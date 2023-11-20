@@ -1,16 +1,15 @@
 <!-- upload_file.html -->
-{% extends 'nav2.html' %}
-
-{% block body %}
-
+{% extends "nav2.html" %} 
+{% block mss %}
 
 
-  <h2>File Upload</h2>
+<div class="container2">
+  <h1 style="color:black"><b>File Upload<b></h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Upload</button>
+    <button  type="submit">Upload</button>
   </form>
+<div>
 
-
-{% endblock %}
+{% endblock mss %}
