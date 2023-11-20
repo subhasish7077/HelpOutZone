@@ -18,15 +18,16 @@ def file_upload(request):
             file_upload = form.save(commit=False)
             file_upload.user = request.user
             file_upload.save()
-            return redirect('file_list')
+            return redirect('notes:file_list')
     else:
         form = FileUploadForm()
     return render(request, 'upload_file.html', {'form': form})
 
 @login_required(login_url='authuser:login')
 def file_list(request):
-    files = FileUpload.objects.all()
-    return render(request, 'file_list.html', {'files': files})
+    files = FileUpload.objects.all().first()
+    l = [files for i in range(1000)]
+    return render(request, 'file_list.html', {'files': l})
 
 @login_required(login_url='authuser:login')
 def search_posts(request):

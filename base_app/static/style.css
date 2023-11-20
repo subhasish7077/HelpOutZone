@@ -39,13 +39,13 @@
     box-shadow: 0px 0px 10px rgb(173, 173, 173);
 }
 
-body{
+/* body{
     background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url("scholarsnetwork.jpg");
     color: #000000;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-}
+} */
 /* .mn{
     padding: 20px;
     width: 1280px;

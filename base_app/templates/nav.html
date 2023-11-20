@@ -6,8 +6,8 @@
             <!-- Navbar brand -->
             <a class="navbar-brand" href="{% url 'base_app:home page' %}">
                 {% load static %}
-                <img src="{% static 'logo2.png' %}" alt="HeloputZone"
-                    style="aspect-ratio: 3.5/1; width:150px; mix-blend-mode:darken; border-radius: 10px">
+                <img src="{% static 'logo.png' %}" alt="HeloputZone"
+                    style="aspect-ratio: 4/0.9; width:150px; mix-blend-mode:darken; outline:2px solid black; border-radius: 5px">
                 </a>
             <!-- Toggle button -->
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
@@ -39,7 +39,7 @@
                 </li>
                 {% if request.user.is_authenticated %}
                 <li class="nav-item mx-3">
-                        <a href="#" class="btn btn-success pt-2  pb-1 px-3">{{request.user.username}}</a>
+                        <a href="#" class="pt-2  pb-1 px-3">{{request.user.username}}</a>
                     </li>
                 {% endif %}
             </ul>

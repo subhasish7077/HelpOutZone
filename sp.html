@@ -4,25 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Button Value</title>
+    <style>
+        .row{
+            display: flex;
+        }
+        .con1{ 
+            margin: 10px;
+            width: 100px;
+
+            background-color: black;
+            height: 1000px;
+        }
+        .con2{
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
-
-    <button id="button1" value="First Value" onclick="updateButton2Value()">Click me</button>
-    <button id="button2" value="Second Value" onclick="printvalue()">Button 2</button>
-
-    <script>
-        function updateButton2Value() {
-            // Get the value of Button 1
-            var button1Value = document.getElementById('button1').value;
-
-            // Set the value of Button 2 to be the same as Button 1
-            document.getElementById('button2').value = button1Value;
-        }
-        function printvalue(){
-            var value = document.getElementById('button2')
-            console.log(value.value)
-        }
-    </script>
+    <div class="row">
+        <div class="con1">
+            spspsps
+        </div>
+        <div class="con2">
+            spspspsspdmfmfmfmffm
+        </div>
+    </div>
 
 </body>
 </html>

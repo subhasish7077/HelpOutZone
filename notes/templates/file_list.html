@@ -1,17 +1,18 @@
 {% extends "nav2.html" %}
-{% block mss %}
+{% block notesbody %}
 
 <div class="container2">
   <h2>File List</h2>
   <ul type="square">
     {% for file in files %}
-      <li>
-        <divs>
-        <b>{{ file.user.username }} has uploaded {{ file.upload_date }} : <a href="{{ file.file.url }}" target="_blank"><img width="150" height="150" src="{{ file.file.url }}" /></a><b>
+    <li>
+      <div>
+        <b>{{ file.user.username }} has uploaded {{ file.upload_date }} : <a href="" target="_blank">spsp</a><b>
         </div>
-      </li>
+    </li>
     {% endfor %}
   </ul>
 <div>
-{% endblock mss %}
+{% endblock notesbody %}
+
   
