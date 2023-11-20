@@ -7,4 +7,5 @@ urlpatterns = [
     path('get_tags/', views.get_tags, name='get_tags'),
     path('QandA/tag/<pk>/', views.QuestionsByTags, name='get_question_by_tags'),
     path('QandA/answer/delete/', views.deleteanswer, name='delete_answer'),
+    path('QandA/update/answer/', views.updateAnswer, name='update_answer'),
 ]

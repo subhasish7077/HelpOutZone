@@ -118,3 +118,7 @@ def deleteanswer(request):
     answer.delete()
     messages.success(request,"Answer Deleted Successfully")
     return redirect('QandA:Question_byid',pk=question_id)
+
+@login_required(login_url='authuser:login')
+def updateAnswer(request):
+    return render(request,'update.html')
