@@ -56,12 +56,16 @@
 				</div>
 				{% if request.user == answer.author  %}
 				<div class=" col-6 d-flex justify-content-end">
-					<button type="button" class="btn btn-link p-1" onclick="redirectTo('{% url "QandA:update_answer" %}')">
+					<button type="button" class="btn btn-link p-1 d-none" id="load_update_modal" value='{{upate_flag}}' data-bs-toggle="modal" data-bs-target="#editmodal">
+						update
+					</button>
+					<button type="button" id="edit" class="btn btn-link p-1" onclick="redirect('{% url "QandA:update_answer" answer.id %}')" >
 						Edit
 					</button>
 					<button type="button" id="delete_button{{answer.id}}" class="btn btn-link p-1" data-bs-toggle="modal" onclick="updatebuttonvalue('delete_button{{answer.id}}')" value='{{answer.id}}' data-bs-target="#deletemodal">
 						Delete
 					</button>
+
 				</div>
 				{% endif %}
 			</div>
@@ -104,6 +108,9 @@
 			</div>
 		</div>
 
+
+
+
 		<!-- Answer Form -->
 		<div class="card mt-2 mb-4" style="background-color: #ffffff;">
 			<div class="card-body">
@@ -113,8 +120,8 @@
 					<div class="form-label m-0">
 						<label for="answerTextarea">Write your answer:</label>
 					</div>
-					<div class="textarea form-outline mb-4 answerritchtext m-0 p-0">
-						{{form.content}}
+					<div class="form-outline mb-4 answerritchtext m-0 p-0">
+						{{answerform.content}}
 					</div>
 					<button type="submit" class="btn btn-primary btn-block">Submit Answer</button>
 				</form>
@@ -134,7 +141,7 @@
         document.getElementById('delete_ans').value=button1Value.value;
     }
 
-	function redirectTo(url){
+	function redirect(url){
 		window.location.href = url;
 	}
 </script>

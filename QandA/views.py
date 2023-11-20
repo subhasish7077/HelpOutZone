@@ -13,6 +13,7 @@ import re
 # Create your views here.
 
 def add_answer(request, question):
+    content = "<p>My name is subhasish panda</p>"
     form = AnswerForm(request.POST)
     if form.is_valid():
         content = form.cleaned_data.get('content', '')
@@ -44,8 +45,8 @@ def get_questionByID(request, pk):
 
     update_views(request, question)
     answers = question.answers.all()
-
-    return render(request, 'Questiondetails.html', {'answers': answers, 'question': question, 'form': AnswerForm()})
+    content = "<p> this is update form</p>"
+    return render(request, 'Questiondetails.html', {'answers': answers, 'question': question, 'answerform': AnswerForm(),'updateform':AnswerForm(initial={'content':content})})
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -120,5 +121,6 @@ def deleteanswer(request):
     return redirect('QandA:Question_byid',pk=question_id)
 
 @login_required(login_url='authuser:login')
-def updateAnswer(request):
-    return render(request,'update.html')
+def updateAnswer(request,pk):
+    request.session['edit_asnwer_id'] = pk
+    return redirect('QandA:Question_byid',pk=5)
