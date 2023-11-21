@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import User
 from .forms import UserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 # Create your views here.
 
 def login_register(request):
@@ -63,3 +64,23 @@ def logout_page(request):
     logout(request)
     messages.success(request, "successfully logged out")
     return redirect('base_app:home page')
+
+
+@login_required(login_url='authuser:login')
+def user_profile(request):
+    user = request.user
+    editable = True
+    return render(request, 'user_profile.html',{'user':user,'editable':editable})
+
+@login_required(login_url='authuser:login')
+def updateUserChanges(request):
+    user=get_object_or_404(User,id=request.user.id)
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.username = request.POST.get('username')
+        user.app_password = request.POST.get('app_password')
+        user.openai_api_key = request.POST.get('openai_api_key')
+        user.save()
+    
+    return redirect('authuser:user_profile')

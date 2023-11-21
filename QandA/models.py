@@ -25,12 +25,12 @@ class Tag(models.Model):
 class Question(models.Model):
     title = models.CharField(max_length=1000)
     description = RichTextUploadingField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questions')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='authors_questions')
     tags = models.ManyToManyField(Tag, related_name='question_tags')
     created_at = models.DateTimeField(auto_now_add=True)
-    votes = models.ManyToManyField(User, related_name='Ques_votes',blank=True)
     views = models.ManyToManyField(User, related_name='viewed',blank=True)
-
+    total_votes = models.IntegerField(default=0)
+    
     def __str__(self):
         return self.title
 
@@ -64,9 +64,19 @@ class Question(models.Model):
 class Answer(models.Model):
     content = RichTextUploadingField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='authors_answer')
     created_at = models.DateTimeField(auto_now_add=True)
-    votes = models.ManyToManyField(User, related_name='ans_votes',blank=True)
-
+    total_votes = models.IntegerField(default=0)
+    
     def __str__(self):
         return f"Answer to {self.question.title}"
+
+class Votes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='authors_vote')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
+    vote_type = models.IntegerField(choices=((1, 'Upvote'), (-1, 'Downvote')))
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user','question','answer')

@@ -1,7 +1,6 @@
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
-from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.html import strip_tags
 from django.db.models import Count
 from django.contrib import messages
@@ -13,7 +12,7 @@ import re
 # Create your views here.
 
 def add_answer(request, question):
-    content = "<p>My name is subhasish panda</p>"
+    content = ""
     form = AnswerForm(request.POST)
     if form.is_valid():
         content = form.cleaned_data.get('content', '')
@@ -30,11 +29,49 @@ def add_answer(request, question):
                 messages.error(request, f"Error saving answer: {e}")
         else:
             messages.error(request, "Content is empty")
+    else:
+        messages.error(request,'Wrong input format')
 
 def update_views(request, question):
     if not question.views.filter(id=request.user.id).exists():
         question.views.add(request.user.id)
+
+
+@login_required(login_url='authuser:login')
+def deleteanswer(request):
+    pk = request.GET.get('delete_button') or '-1'
+    answer = Answer.objects.filter(id=pk).first()
+    question_id = answer.question.id
+    answer.delete()
+    messages.success(request,"Answer Deleted Successfully")
+    return redirect('QandA:Question_byid',pk=question_id)
+
+@login_required(login_url='authuser:login')
+def updateAnswer(request,pk):
+    request.session['edit_answer_id'] = pk
+    answer = Answer.objects.filter(id=pk).first()
+    return redirect('QandA:Question_byid',pk=answer.question.id)
+
+@login_required(login_url='authuser:login')
+def saveChangedAnswer(request,pk):
+    print('spp')
+    answer = Answer.objects.filter(id=pk).first()
+    form = AnswerUpdateForm(request.POST)
+    if form.is_valid():
+        content = form.cleaned_data.get('Update_content', '')
+        temp_content = re.sub(r'&nbsp;|&#160;', ' ', content)
+        if strip_tags(temp_content).strip():
+            answer.content = content
+            answer.save()
+            messages.success(request, "Answer Updated successfully")
+        else:
+            messages.error(request, "Answer is empty")
+    else:
+        messages.error(request,'Wrong input format')
+    return redirect('QandA:Question_byid', pk=answer.question.id)
         
+        
+
 @login_required(login_url='authuser:login')
 def get_questionByID(request, pk):
     question = Question.objects.filter(id=pk).first()
@@ -45,8 +82,17 @@ def get_questionByID(request, pk):
 
     update_views(request, question)
     answers = question.answers.all()
-    content = "<p> this is update form</p>"
-    return render(request, 'Questiondetails.html', {'answers': answers, 'question': question, 'answerform': AnswerForm(),'updateform':AnswerForm(initial={'content':content})})
+    
+    answer_id = request.session.get('edit_answer_id',-1)
+    if 'edit_answer_id' in request.session:
+        del request.session['edit_answer_id']
+    
+    update_flag = 'False'
+    content = Answer.objects.filter(id=answer_id).first() or ''
+    if content:
+        content = content.content
+        update_flag = 'True'
+    return render(request, 'Questiondetails.html', {'answers': answers, 'question': question, 'answerform': AnswerForm(),'updateform':AnswerUpdateForm(initial={'Update_content':content}),'update_flag':update_flag, 'answer_id':answer_id})
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -111,16 +157,55 @@ def get_tags(request):
     tags_list = list(tags)
     return JsonResponse({'tags': tags_list})
 
-@login_required(login_url='authuser:login')
-def deleteanswer(request):
-    pk = request.GET.get('delete_button') or '-1'
-    answer = Answer.objects.filter(id=pk).first()
-    question_id = answer.question.id
-    answer.delete()
-    messages.success(request,"Answer Deleted Successfully")
-    return redirect('QandA:Question_byid',pk=question_id)
+def Upvote_question(request,pk):
+    question = get_object_or_404(Question, id=pk)
+    vote, created = Votes.objects.get_or_create(user = request.user, question=question, defaults={'vote_type':1})
+    print(created)
+    if not created and vote.vote_type == -1:
+        print('spsp')
+        vote.vote_type = 1
+        vote.save()
+        question.total_votes += 2
+        
+    elif created:
+        question.total_votes += 1
+    question.save()
+    return JsonResponse({'total_votes':question.total_votes})
 
-@login_required(login_url='authuser:login')
-def updateAnswer(request,pk):
-    request.session['edit_asnwer_id'] = pk
-    return redirect('QandA:Question_byid',pk=5)
+def Upvote_answer(request,pk):
+    answer = get_object_or_404(Answer, id=pk)
+    vote, created = Votes.objects.get_or_create(user = request.user, answer=answer, defaults={'vote_type':1})
+    if not created and vote.vote_type == -1:
+        vote.vote_type = 1
+        vote.save()
+        answer.total_votes += 2 
+    elif created:
+        answer.total_votes += 1
+    answer.save()
+    return JsonResponse({'total_votes':answer.total_votes})
+
+def Downvote_question(request,pk):
+    question = get_object_or_404(Question, id=pk)
+    vote, created = Votes.objects.get_or_create(user = request.user, question=question, defaults={'vote_type':-1})
+    print(created)
+    if not created and vote.vote_type == 1:
+        print('spsp')
+        vote.vote_type = -1
+        vote.save()
+        question.total_votes -= 2
+    elif created:
+        question.total_votes -= 1
+    question.save()
+    return JsonResponse({'total_votes':question.total_votes})
+
+def Downvote_answer(request,pk):
+    answer = get_object_or_404(Answer, id=pk)
+    vote, created = Votes.objects.get_or_create(user = request.user, answer=answer, defaults={'vote_type':-1})
+    if not created and vote.vote_type == 1:
+        vote.vote_type = -1
+        vote.save()
+        answer.total_votes -= 2 
+    elif created:
+        answer.total_votes -= 1
+    answer.save()
+    return JsonResponse({'total_votes':answer.total_votes})

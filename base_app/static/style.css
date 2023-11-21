@@ -39,39 +39,3 @@
     box-shadow: 0px 0px 10px rgb(173, 173, 173);
 }
 
-/* body{
-    background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url("scholarsnetwork.jpg");
-    color: #000000;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-} */
-/* .mn{
-    padding: 20px;
-    width: 1280px;
-    height: 600px;
-    background-repeat: no-repeat;
-    background-position: top left;
-    background-size: 1280px 600px;
-    background-image: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.7)),url("schol.jpg");
-    color: aliceblue;
-}
-.moto{
-    width:600px;
-    height: 100px;
-    color:black;
-    margin: 100px 650px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 18px;
-}
-.transparent-button {
-    background-color: transparent;
-    color: #fff;
-    border: 2px solid #fff;
-    padding: 10px 20px;
-    cursor: pointer;
-
-}
-.transparent-button:hover {
-    background-color: green;
-} */

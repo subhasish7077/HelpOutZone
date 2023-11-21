@@ -11,6 +11,7 @@
         "deleteanswer",
         "emailgenerate",
         "Heloput",
+        "openai",
         "Qand",
         "Questiondetails",
         "Questionsview",
@@ -18,5 +19,7 @@
         "tagcategory",
         "tempcontent"
     ],
-    "python.analysis.autoImportCompletions": false
+    "python.analysis.autoImportCompletions": false,
+    "editor.mouseWheelZoom": true,
+    "workbench.editor.enablePreviewFromQuickOpen": true
 }

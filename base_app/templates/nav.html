@@ -39,7 +39,7 @@
                 </li>
                 {% if request.user.is_authenticated %}
                 <li class="nav-item mx-3">
-                        <a href="#" class="pt-2  pb-1 px-3">{{request.user.username}}</a>
+                        <a href="{% url "authuser:user_profile" %}" class="pt-2  pb-1 px-3">{{request.user.username}}</a>
                     </li>
                 {% endif %}
             </ul>

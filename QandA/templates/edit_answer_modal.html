@@ -1,0 +1,29 @@
+<!-- EditForm -->
+<div class="modal fade mx-auto" id="editmodal" tabindex="-1" aria-labelledby="editmodalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header px-2 py-2">
+                <h5 class="modal-title p-0 m-0" id="deletemodalLabel">Edit Your Answer</h5>
+            </div>
+            <div class="modal-body pt-2 ps-2">
+                <form action="{% url 'QandA:save_changes' answer_id %}" method='post'>
+                    {% csrf_token %}
+                    <div class="form-label m-0">
+                        <label for="answerTextarea">Your answer:</label>
+                    </div>
+                    <div class="form-outline mb-4 answerritchtext m-0 p-0">
+                        {{updateform.Update_content}}
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-outline-primary btn-block" data-bs-dismiss="modal">Update Answer</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-outline-secondary btn-block" data-bs-dismiss="modal">Discard Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

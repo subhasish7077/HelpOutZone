@@ -81,14 +81,14 @@
                             </div>
                             {% endfor %}
                             <!-- Pagination -->
-                            <div class="col">
+                            <div class="col mt-3 pt-1">
                                 {% if email_history.has_other_pages %}
                                 <ul class="pagination pagination-circle">
                                     <li class="page-item {% if email_history.number == 1 %} disabled {% endif %}">
                                         <a class="page-link" href="?page=1">&larr; First</a>
                                     </li>
 
-                                    {% if email_history.number == email_history.paginator.num_pages%}
+                                    {% if email_history.number == email_history.paginator.num_pages and email_history.previous_page_number != 1 %}
                                     <li class="page-item">
                                         <a class="page-link" href="?page={{email_history.previous_page_number | add:"-1"}}">{{email_history.previous_page_number | add:"-1"}}</a>
                                     </li>
@@ -106,18 +106,18 @@
 
                                     {% if email_history.has_next %}
                                     <li class="page-item">
-                                        <a class="page-link" href="?page={{content_history.next_page_number}}">{{content_history.next_page_number}}</a>
+                                        <a class="page-link" href="?page={{email_history.next_page_number}}">{{email_history.next_page_number}}</a>
                                     </li>
                                     {% endif %}
 
-                                    {% if email_history.number == 1 %}
+                                    {% if email_history.number == 1 and  email_history.paginator.num_pages > email_history.next_page_number %}
                                         <li class="page-item">
-                                            <a class="page-link" href="?page={{content_history.next_page_number | add:"1"}}">{{content_history.next_page_number | add:"1"}}</a>
+                                            <a class="page-link" href="?page={{email_history.next_page_number | add:"1"}}">{{email_history.next_page_number | add:"1"}}</a>
                                         </li>
                                     {% endif %}
 
-                                    <li class="page-item {% if email_history.number == email_history.paginator.num_pages%} disabled {% endif %}">
-                                        <a class="page-link" href="?page={{email_history.paginator.num_pages}}">Last &rarr;</a>
+                                    <li class="page-item {% if email_history.number == email_history.paginator.num_pages %} disabled {% endif %}">
+                                        <a class="page-link" href="?page={{email_history.paginator.num_pages}}">&rarr; Last </a>
                                     </li>
                                 </ul>
                                 {% endif %}

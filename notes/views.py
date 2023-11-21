@@ -5,7 +5,7 @@ from .forms import FileUploadForm
 from django.http import HttpResponse
 @login_required(login_url='authuser:login')
 def download_file(request, file_id):
-    file = UploadedFile.objects.get(pk=file_id)
+    file = FileUpload.objects.get(pk=file_id)
     response = HttpResponse(file.file, content_type='application/force-download')
     response['Content-Disposition'] = f'attachment; filename="{file.file.name}"'
     return response

@@ -1,0 +1,82 @@
+<!-- Edit Content -->
+<div class="card-body">
+    <form action="{% url "authuser:userUpdate" %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-sm-4 pt-2">
+                        <h6 class="mb-0">First Name</h6>
+                    </div>
+                    <div class="col-sm-7 d-flex justify-content-between ">
+                        <input type="text" name="first_name" class="form-control" value="{{user.first_name}}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-sm-4 pt-2">
+                        <h6 class="mb-0">Last Name</h6>
+                    </div>
+                    <div class="col-sm-7 d-flex justify-content-between ">
+                        <input type="text" name="last_name" class="form-control" value="{{user.last_name}}" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5 pt-2">
+                <h6 class="mb-0">Username</h6>
+            </div>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="username" value="{{user.username}}" required>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5 pt-2">
+                <h6 class="mb-0">Email</h6>
+            </div>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" disabled value="{{user.email}}">
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5 pt-2">
+                <h6 class="mb-0">App Password</h6>
+            </div>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="app_password" value="{{user.app_password}}" required>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5 pt-2">
+                <h6 class="mb-0">Openai api key</h6>
+            </div>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="openai_api_key" value="{{user.openai_api_key}}" required>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-5 pt-2">
+                <h6 class="mb-0">Total Token Used</h6>
+            </div>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" value="{{user.total_token_used}}" disabled>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-info">Save Changes</button>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn btn-info">Change Password</button>
+            </div>
+        </div>
+    </form>
+</div>

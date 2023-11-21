@@ -1,0 +1,15 @@
+<div class="card mt-2 mb-4" style="background-color: #ffffff;">
+    <div class="card-body">
+        <h4 class="card-title">Your Answer</h4>
+        <form method="post" action="{% url "QandA:Question_byid" question.id %}">
+            {% csrf_token %}
+            <div class="form-label m-0">
+                <label for="answerTextarea">Write your answer:</label>
+            </div>
+            <div class="form-outline mb-4 answerritchtext m-0 p-0">
+                {{answerform.content}}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit Answer</button>
+        </form>
+    </div>
+</div>

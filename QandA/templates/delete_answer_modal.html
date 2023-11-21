@@ -1,0 +1,16 @@
+<!-- Delete Modal -->
+<div class="modal fade w-25 mx-auto" id="deletemodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletemodalLabel">Confirm Deletion</h5>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url "QandA:delete_answer" %}" method='get'>
+                    <button type="submit" name="delete_button" id="delete_ans" class="btn btn-outline-primary">Yes</button>
+                </form>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,18 +23,18 @@
 				</span>	
 				<span class="mx-3">By <a href="#">{{question.author.first_name}}</a></span>
 			</p>
+			<!-- Voting Question -->
 			<div class="container">
 				<div class="row">
 					<div class="col-1">
 						<div class="d-flex flex-column align-items-center">
-							<button type="button" class="btn btn-light border-primary mb-2">
-								<i class="fas fa-arrow-up text-primary"></i>
-							</button>
-							<span class="mt-2">105</span>
-							<button type="button" class="btn btn-light border-danger">
+							<a href="{% url "QandA:UpvoteQuestion" question.id %}" class="btn btn-light border-primary upvote-link mb-0"> 
+								<i class="fas fa-arrow-up text-primary"></i> 
+							</a>
+							<span class="mt-0" id="total-votes">{{question.total_votes}}</span>
+							<a href="{% url "QandA:DownvoteQuestion" question.id %}" class="btn btn-light border-primary downvote-link mb-0">
 								<i class="fas fa-arrow-down text-danger"></i>
-							</button>
-							<!-- Display the upvote and downvote counts for the answer -->
+							</a>
 						</div>
 					</div>
 					<div class="col-11" style="background-color: #efefef; font-size:15px">
@@ -52,11 +52,11 @@
 		<div class="py-4 ps-2 pe-5" style="background-color: #ffffff;">
 			<div class="fs-5 ms-5 ps-5 row">
 				<div class="col-6 d-flex justify-content-start ps-0 text-dark">
-					By:<a href="#">&nbsp;{{answer.author.first_name}}</a>
+					By:<a href="#">&nbsp;{{answer.author.first_name}}{{answer.id}}</a>
 				</div>
 				{% if request.user == answer.author  %}
 				<div class=" col-6 d-flex justify-content-end">
-					<button type="button" class="btn btn-link p-1 d-none" id="load_update_modal" value='{{upate_flag}}' data-bs-toggle="modal" data-bs-target="#editmodal">
+					<button type="button" class="btn btn-link p-1 d-none" id="load_update_modal" value='{{update_flag}}' data-bs-toggle="modal" data-bs-target="#editmodal">
 						update
 					</button>
 					<button type="button" id="edit" class="btn btn-link p-1" onclick="redirect('{% url "QandA:update_answer" answer.id %}')" >
@@ -73,13 +73,13 @@
 				<div class="row">
 					<div class="col-1">
 						<div class="d-flex flex-column align-items-center">
-							<button type="button" class="btn btn-light border-primary mb-2">
-								<i class="fas fa-arrow-up text-primary"></i>
-							</button>
-							<span class="mt-2">105</span>
-							<button type="button" class="btn btn-light border-danger">
+							<a href="{% url "QandA:UpvoteAnswer" answer.id %}" class="btn btn-light border-primary mb-0 upvote-ans-link"> 
+								<i class="fas fa-arrow-up text-primary"></i> 
+							</a>
+							<span class="mt-0" id="total-ans-votes">{{answer.total_votes}}</span>
+							<a href="{% url "QandA:DownvoteAnswer" answer.id %}" class="btn btn-light border-primary mb-0 downvote-ans-link">
 								<i class="fas fa-arrow-down text-danger"></i>
-							</button>
+							</a>
 						</div>
 					</div>
 					<div class="col-11" style="background-color: #efefef; font-size:15px">
@@ -91,47 +91,18 @@
 		<hr>
 		{% endfor %}
 
-		<!-- Delete Modal -->
-		<div class="modal fade w-25 mx-auto" id="deletemodal" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="deletemodalLabel">Confirm Deletion</h5>
-					</div>
-					<div class="modal-footer">
-						<form action="{% url "QandA:delete_answer" %}" method='get'>
-							<button type="submit" name="delete_button" id="delete_ans" class="btn btn-outline-primary">Yes</button>
-						</form>
-						<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-
+		{% include "delete_answer_modal.html" %}
+		
+		{% include "edit_answer_modal.html" %}
 
 		<!-- Answer Form -->
-		<div class="card mt-2 mb-4" style="background-color: #ffffff;">
-			<div class="card-body">
-				<h4 class="card-title">Your Answer</h4>
-				<form method="post" action="{% url "QandA:Question_byid" question.id %}">
-					{% csrf_token %}
-					<div class="form-label m-0">
-						<label for="answerTextarea">Write your answer:</label>
-					</div>
-					<div class="form-outline mb-4 answerritchtext m-0 p-0">
-						{{answerform.content}}
-					</div>
-					<button type="submit" class="btn btn-primary btn-block">Submit Answer</button>
-				</form>
-			</div>
-		</div>
+		{% include "answer_form.html" %}
+		
 	</div>
 
 
 
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     function updatebuttonvalue(id) {
         // Get the value of Button 1
@@ -142,7 +113,76 @@
     }
 
 	function redirect(url){
+		console.log(url);
 		window.location.href = url;
 	}
+	
+	window.onload = function(){
+		btn = document.getElementById('load_update_modal')
+		if(btn.value === 'True'){
+			btn.click()
+		}
+	}
+
+
+	// JavaScript to handle voting with AJAX
+	$(document).ready(function () {
+		function vote(url, callback) {
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				},
+				success: function (data) {
+					callback(data);
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+		}
+
+		// Attach the function to the upvote and downvote links
+		$('.upvote-link').click(function (e) {
+			e.preventDefault();
+			var url = $(this).attr('href');
+			vote(url, function (data) {
+				// Update the UI, e.g., total votes count
+				$('#total-votes').text(data.total_votes);
+				console.log(data);
+			});
+		});
+
+		$('.downvote-link').click(function (e) {
+			e.preventDefault();
+			var url = $(this).attr('href');
+			vote(url, function (data) {
+				// Update the UI, e.g., total votes count
+				$('#total-votes').text(data.total_votes);
+				console.log(data.total_votes);
+			});
+		});
+
+		$('.upvote-ans-link').click(function (e) {
+			e.preventDefault();
+			var url = $(this).attr('href');
+			vote(url, function (data) {
+				// Update the UI, e.g., total votes count
+				$('#total-ans-votes').text(data.total_votes);
+				console.log(data);
+			});
+		});
+
+		$('.downvote-ans-link').click(function (e) {
+			e.preventDefault();
+			var url = $(this).attr('href');
+			vote(url, function (data) {
+				// Update the UI, e.g., total votes count
+				$('#total-ans-votes').text(data.total_votes);
+				console.log(data.total_votes);
+			});
+		});
+	});
 </script>
 {% endblock body %}

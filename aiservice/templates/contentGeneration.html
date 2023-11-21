@@ -14,7 +14,6 @@
 <section>
     <div class="container mt-4 pt-3" id="main">
         <div class="row">
-
             <div class="col-md-9 m-auto">
                 <div class="card">
                     <div class="card-header text-center h1">
@@ -69,7 +68,7 @@
                                         <a class="page-link" href="?page=1">&larr; First</a>
                                     </li>
 
-                                    {% if content_history.number == content_history.paginator.num_pages%}
+                                    {% if content_history.number == content_history.paginator.num_pages and content_history.previous_page_number != 1 %}
                                     <li class="page-item">
                                         <a class="page-link" href="?page={{content_history.previous_page_number | add:"-1"}}">{{content_history.previous_page_number | add:"-1"}}</a>
                                     </li>
@@ -98,7 +97,7 @@
                                     {% endif %}
 
                                     <li class="page-item {% if content_history.number == content_history.paginator.num_pages%} disabled {% endif %}">
-                                        <a class="page-link" href="?page={{content_history.paginator.num_pages}}">Last &rarr;</a>
+                                        <a class="page-link" href="?page={{content_history.paginator.num_pages}}">&rarr; Last </a>
                                     </li>
                                 </ul>
                                 {% endif %}
