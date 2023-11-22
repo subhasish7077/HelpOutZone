@@ -182,7 +182,7 @@ def Upvote_answer(request,pk):
     elif created:
         answer.total_votes += 1
     answer.save()
-    return JsonResponse({'total_votes':answer.total_votes})
+    return JsonResponse({'total_votes':answer.total_votes,'id':answer.id})
 
 def Downvote_question(request,pk):
     question = get_object_or_404(Question, id=pk)
@@ -208,7 +208,7 @@ def Downvote_answer(request,pk):
     elif created:
         answer.total_votes -= 1
     answer.save()
-    return JsonResponse({'total_votes':answer.total_votes})
+    return JsonResponse({'total_votes':answer.total_votes,'id':answer.id})
 
 def ask_question(request):
     form = QuestionForm(request.POST)

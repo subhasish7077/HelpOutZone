@@ -76,7 +76,7 @@
 							<a href="{% url "QandA:UpvoteAnswer" answer.id %}" class="btn btn-light border-primary mb-0 upvote-ans-link"> 
 								<i class="fas fa-arrow-up text-primary"></i> 
 							</a>
-							<span class="mt-0" id="total-ans-votes">{{answer.total_votes}}</span>
+							<span class="mt-0" id="total-ans-votes-{{answer.id}}">{{answer.total_votes}}</span>
 							<a href="{% url "QandA:DownvoteAnswer" answer.id %}" class="btn btn-light border-primary mb-0 downvote-ans-link">
 								<i class="fas fa-arrow-down text-danger"></i>
 							</a>
@@ -169,7 +169,8 @@
 			var url = $(this).attr('href');
 			vote(url, function (data) {
 				// Update the UI, e.g., total votes count
-				$('#total-ans-votes').text(data.total_votes);
+				var id = '#total-ans-votes-'+data.id
+				$(id).text(data.total_votes);
 				console.log(data);
 			});
 		});
@@ -179,7 +180,8 @@
 			var url = $(this).attr('href');
 			vote(url, function (data) {
 				// Update the UI, e.g., total votes count
-				$('#total-ans-votes').text(data.total_votes);
+				var id = '#total-ans-votes-'+data.id
+				$(id).text(data.total_votes);
 				console.log(data.total_votes);
 			});
 		});
