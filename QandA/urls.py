@@ -13,4 +13,5 @@ urlpatterns = [
     path('QandA/Downvote/question/<pk>', views.Downvote_question, name='DownvoteQuestion'),
     path('QandA/Upvote/answer/<pk>', views.Upvote_answer, name='UpvoteAnswer'),
     path('QandA/Downvote/answer/<pk>', views.Downvote_answer, name='DownvoteAnswer'),
+    path('QandA/ask/question',views.ask_question,name='ask_question')
 ]

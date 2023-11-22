@@ -209,3 +209,29 @@ def Downvote_answer(request,pk):
         answer.total_votes -= 1
     answer.save()
     return JsonResponse({'total_votes':answer.total_votes})
+
+def ask_question(request):
+    form = QuestionForm(request.POST)
+    tag_categories = TagCategory.objects.all()
+    if request.method == 'POST':
+        if form.is_valid():
+            title = request.POST.get('title')
+            description = form.cleaned_data.get('description')
+            author = request.user
+            tags = request.POST.getlist('tags')
+            print(tags)
+            try:    
+                question = Question.objects.create(
+                    title=title,
+                    description=description,
+                    author=author,
+                    )
+                for i in tags:
+                    question.tags.add(i)
+                question.save()
+                messages.success(request,"Question asked successfully")
+            except Exception as e:
+                print(e)
+                messages.error(request,e)
+            return redirect('QandA:questions_list')
+    return render(request,'QuestionForm.html',{'form':form,'tag_categories':tag_categories})

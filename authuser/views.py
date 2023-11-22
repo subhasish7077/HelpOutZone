@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import update_session_auth_hash
+import random
 # Create your views here.
 
 def login_register(request):
@@ -17,6 +18,7 @@ def login_register(request):
             data = request.POST   
             email = data.get('email')
             password = data.get('password')
+            print(email,password)
             if not User.objects.filter(email = email).exists():
                 messages.error(request, 'User does not exits. Register your self')
                 return redirect('authuser:login')
@@ -70,17 +72,18 @@ def logout_page(request):
 @login_required(login_url='authuser:login')
 def user_profile(request,pk):
     user = User.objects.filter(id=pk).first()
+    rand = random.randint(1,7)
     if user == request.user:
         editable = request.session.get('editable',False)
     else:
         editable = False
     asked_questions = user.authors_questions.all()
     given_answer = user.authors_answer.all()
-    return render(request, 'user_profile.html',{'user':user,'editable':editable,'asked_questions':asked_questions,'given_answers':given_answer})
+    return render(request, 'user_profile.html',{'user':user,'editable':editable,'asked_questions':asked_questions,'given_answers':given_answer,'random':rand})
 
 @login_required(login_url='authuser:login')
 def updateUserChanges(request):
-    user=get_object_or_404(User,id=request.user.id)
+    user=request.user
     if request.method == 'POST':
         user.first_name = request.POST.get('first_name',user.first_name)
         user.last_name = request.POST.get('last_name',user.last_name)
@@ -89,6 +92,8 @@ def updateUserChanges(request):
         user.openai_api_key = request.POST.get('openai_api_key',user.openai_api_key)
         user.bio = request.POST.get('bio',user.bio)
         user.save()
+        print(request.POST)
+        messages.success(request, "Changes saved Successfully")
         request.session['editable'] = False
     else:
         request.session['editable'] = True

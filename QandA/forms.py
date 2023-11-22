@@ -24,7 +24,7 @@ class AnswerUpdateForm(forms.ModelForm):
 
 class QuestionForm(forms.ModelForm):
     description = forms.CharField(
-        widget = CKEditorUploadingWidget(config_name = 'config2'),  # Assuming you're using CKEditorUploadingWidget
+        widget = CKEditorUploadingWidget(config_name = 'config3'),  # Assuming you're using CKEditorUploadingWidget
         initial = "",
         )
     class Meta:
