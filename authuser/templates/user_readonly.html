@@ -41,6 +41,25 @@
                             </div>
                         </div>
                         <hr>
+                        {% if user == request.user %}
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h6 class="mb-0">App Password</h6>
+                            </div>
+                            <div class="col-sm-7 text-secondary">
+                                {{user.app_password}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h6 class="mb-0">Openai api key</h6>
+                            </div>
+                            <div class="col-sm-7 text-secondary text-truncate">
+                                {{user.openai_api_key}}
+                            </div>
+                        </div>
+                        <hr>
                         <div class="row">
                             <div class="col-sm-5">
                                 <h6 class="mb-0">Total Token Used</h6>
@@ -50,10 +69,25 @@
                             </div>
                         </div>
                         <hr>
+                        {% endif %}
                         <div class="row">
-                            <div class="col-sm-12">
-                                <a class="btn btn-info " target="__blank"
-                                    href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                            <div class="col-sm-5">
+                                <h6 class="mb-0">Bio</h6>
+                            </div>
+                            <div class="col-sm-7 text-secondary" style="text-align:justify; max-height:60px; overflow:scroll; overflow-y:auto; overflow-x:auto">
+                                {% if not user.bio %}
+                                    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----    ----
+                                {% endif %}
+                                    {{user.bio}}
                             </div>
                         </div>
+                        <hr>
+                        {% if user == request.user %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-info "
+                                        href="{% url "authuser:userUpdate" %}">Edit</a>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>

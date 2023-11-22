@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import User
 from .forms import UserForm
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth import update_session_auth_hash
 # Create your views here.
 
 def login_register(request):
@@ -65,22 +67,57 @@ def logout_page(request):
     messages.success(request, "successfully logged out")
     return redirect('base_app:home page')
 
-
 @login_required(login_url='authuser:login')
-def user_profile(request):
-    user = request.user
-    editable = True
-    return render(request, 'user_profile.html',{'user':user,'editable':editable})
+def user_profile(request,pk):
+    user = User.objects.filter(id=pk).first()
+    if user == request.user:
+        editable = request.session.get('editable',False)
+    else:
+        editable = False
+    asked_questions = user.authors_questions.all()
+    given_answer = user.authors_answer.all()
+    return render(request, 'user_profile.html',{'user':user,'editable':editable,'asked_questions':asked_questions,'given_answers':given_answer})
 
 @login_required(login_url='authuser:login')
 def updateUserChanges(request):
     user=get_object_or_404(User,id=request.user.id)
     if request.method == 'POST':
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.username = request.POST.get('username')
-        user.app_password = request.POST.get('app_password')
-        user.openai_api_key = request.POST.get('openai_api_key')
+        user.first_name = request.POST.get('first_name',user.first_name)
+        user.last_name = request.POST.get('last_name',user.last_name)
+        user.username = request.POST.get('username',user.username)
+        user.app_password = request.POST.get('app_password',user.app_password)
+        user.openai_api_key = request.POST.get('openai_api_key',user.openai_api_key)
+        user.bio = request.POST.get('bio',user.bio)
         user.save()
-    
-    return redirect('authuser:user_profile')
+        request.session['editable'] = False
+    else:
+        request.session['editable'] = True
+    return redirect('authuser:user_profile',pk=user.id)
+
+@login_required(login_url='authuser:login')
+def change_password(request):
+    print('spsps')
+    if request.method == 'POST':
+        print('request')
+        old_password = request.POST.get('old_password')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        print(old_password, password1, password2)
+        if request.user.check_password(old_password):
+            print('old password')
+            
+            if password1 == password2:
+                request.user.set_password(password1)
+                request.user.save()
+                print('saved')
+                
+                update_session_auth_hash(request, request.user)
+                messages.success(request,"Password changes Successfully")
+            else:
+                messages.error(request,"Password does not match")
+        else:
+            messages.error(request,'Old password is Incorrect')
+    else:
+        messages.error(request,"Error Occurred")
+    print(request.POST)
+    return redirect('authuser:user_profile',pk=request.user.id)

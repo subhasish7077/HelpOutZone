@@ -25,9 +25,9 @@
                 <li class="nav-item mx-3">
                     <a class="nav-link" href="{% url 'base_app:about' %}">About Us</a>
                 </li>
-                <li class="nav-item mx-3">
+                {% comment %} <li class="nav-item mx-3">
                     <a class="nav-link" href="{% url 'notes:file_upload' %}">Notes</a>
-                </li>
+                </li> {% endcomment %}
                 <li class="nav-item mx-3">
                     <a class="nav-link" href="{% url 'QandA:questions_list' %}">Q&A section</a>
                 </li>
@@ -37,19 +37,19 @@
                 <li class="nav-item mx-3">
                     <a class="nav-link" href="{% url "aiservice:content_generator" %}">Content Generation</a>
                 </li>
-                {% if request.user.is_authenticated %}
-                <li class="nav-item mx-3">
-                        <a href="{% url "authuser:user_profile" %}" class="pt-2  pb-1 px-3">{{request.user.username}}</a>
-                    </li>
-                {% endif %}
             </ul>
             <!-- Icons -->
             <ul class="navbar-nav d-flex flex-row me-1">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item me-3">
+                            <a class="btn btn-link btn-rounded text-dark" href="{% url "authuser:user_profile" request.user.id  %}">Profile</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item me-3 me-lg-0">
                     {% if not request.user.is_authenticated %}
-                        <a class="btn btn-dark btn-rounded" href="{% url 'authuser:login' %}">Log in</a>
+                        <a class="btn btn-outline-secondary btn-rounded" href="{% url 'authuser:login' %}">Log in</a>
                     {% else %}
-                        <a class="btn btn-dark btn-rounded" href="{% url 'authuser:logout' %}">Log Out</a>
+                        <a class="btn btn-outline-secondary px-3 py-2 btn-rounded" href="{% url 'authuser:logout' %}">Log Out</a>
                     {% endif %}
                 </li>
                 <li class="nav-item me-3 me-lg-0">

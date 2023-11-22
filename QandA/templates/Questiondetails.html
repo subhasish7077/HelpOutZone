@@ -21,7 +21,7 @@
 					<span class="px-1">Viewed {{question.views.all|length}} 
 					{% if question.views.all|length > 1 %} times {% else %} time {% endif %} </span>
 				</span>	
-				<span class="mx-3">By <a href="#">{{question.author.first_name}}</a></span>
+				<span class="mx-3">By <a href="{% url "authuser:user_profile" question.author.id %}">{{question.author.first_name}}</a></span>
 			</p>
 			<!-- Voting Question -->
 			<div class="container">
@@ -52,7 +52,7 @@
 		<div class="py-4 ps-2 pe-5" style="background-color: #ffffff;">
 			<div class="fs-5 ms-5 ps-5 row">
 				<div class="col-6 d-flex justify-content-start ps-0 text-dark">
-					By:<a href="#">&nbsp;{{answer.author.first_name}}{{answer.id}}</a>
+					By:<a href="{% url "authuser:user_profile" answer.author.id %}">&nbsp;{{answer.author.first_name}}</a>
 				</div>
 				{% if request.user == answer.author  %}
 				<div class=" col-6 d-flex justify-content-end">

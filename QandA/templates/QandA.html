@@ -115,7 +115,7 @@
                                 <div style="text-align: right;">
                                     <h6 class="me-2 pe-2"
                                         style="font-size: 10px; font-style: italic; color: rgb(54, 54, 54);">Asked By:
-                                        <a href="#">{{question.author.first_name}}</a>&nbsp;&nbsp;|&nbsp;&nbsp; On:
+                                        <a href="{% url "authuser:user_profile" question.author.id %}">{{question.author.first_name}}</a>&nbsp;&nbsp;|&nbsp;&nbsp; On:
                                         {{question.created_ago}}
                                     </h6>
                                 </div>
