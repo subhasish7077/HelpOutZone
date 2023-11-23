@@ -287,6 +287,7 @@ AUTH_USER_MODEL = 'authuser.User'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "http://57.180.18.32:8000",
     # Add more origins as needed
 ]
 

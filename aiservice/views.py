@@ -159,7 +159,6 @@ def handle_email(request):
                 except Exception as e:
                     print(e)
                     messages.error(request, "Error occurred")
-            
     
     form = emailgenerateForm(initial={'body': body})
     all_email_generated = emailGenerationDB.objects.filter(user=request.user).order_by('-generated_at')
@@ -223,4 +222,3 @@ def get_email_byID(request, id):
         request.session['subject'] = content.subject
         request.session['body'] = content.body
     return HttpResponseRedirect(reverse('aiservice:send_email'))
-
