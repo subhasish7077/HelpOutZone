@@ -23,14 +23,14 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="{% url "aiservice:send_email" %}" method="POST">
+                        <form action="{% url "aiservice:send_email" %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-outline mb-4">
                                 <textarea name="prompt" cols="10" rows="2" class="form-control" placeholder="Example: Write an email to your manager providing an update on the progress of your project.">{{prompt}}</textarea>
                                 <label class="form-label h6" for="prompt">Email Prompt</label>
                             </div>
                             <div class="form-outline mb-4">
-                                <input type="email" class="form-control" name="to">
+                                <input type="email" class="form-control" name="to" placeholder="Enter all email separated by comma" multiple>
                                 <label class="form-label h6">To:</label>
                             </div>
                             <div class="form-outline mb-4">
@@ -45,7 +45,7 @@
                                 {{form.body}}
                             </div>
                                 <label for="FileMultiple" class="form-label">Attach Files</label>
-                                <input class="form-control" type="file" id="formFileMultiple" multiple />
+                                <input class="form-control" type="file" id="formFileMultiple" name="attach" multiple />
                             <!-- Submit button -->
                             <div class="row mt-3">
                                 <div class="col-sm-6">

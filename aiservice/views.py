@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect
-from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -8,6 +7,9 @@ from django.urls import reverse
 from .forms import emailgenerateForm
 from .models import *
 import openai
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage, get_connection
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 def process_email_content(content):
     content = content.removeprefix('\n\n').split('\n\n')
@@ -44,6 +46,20 @@ def save_generated_email_DB(user, prompt, subject, body, token_used):
     except Exception as e:
         print(f"Save error: {e}")
 
+def save_sent_email_DB(user, subject,to, body,cc,):
+    try:
+        obj = emailSent.objects.create(
+            user=user,
+            subject=subject,
+            body=body,
+            to=to,
+            cc=cc
+        )
+        obj.save()
+        print("Sent Email object saved")
+    except Exception as e:
+        print(f"Save error: {e}")
+
 def update_token_used(user, token_used):
     try:
         user.total_token_used += token_used
@@ -73,8 +89,29 @@ def generate_content(prompt, api_key, prompt_type):
     token_used = response['usage']['total_tokens']
     return token_used, content, prompt
 
-def send_email(to, cc, subject, body):
-    return True
+def send_email(user, to, subject, body, cc=None, attach=None):
+    plain_message = strip_tags(body)
+    email = EmailMessage(
+        subject=subject,
+        body=plain_message,
+        from_email=user.email,
+        to=to,
+        cc=cc,
+    )
+    connection = get_connection(
+                host='smtp.gmail.com',
+                port=587,  # Use the appropriate port for your SMTP server
+                username=user.email,
+                password=user.app_password,
+                use_tls=True,  # Set to False if your SMTP server doesn't use TLS
+            )
+    email.connection = connection
+    if attach:
+        for file in attach:
+            email.attach(file.name, file.read(), file.content_type)
+    email.send()
+    save_sent_email_DB(user,subject,to,body,cc)
+    
 # Views 
 
 @login_required(login_url='authuser:login')
@@ -107,16 +144,22 @@ def handle_email(request):
                 messages.error(request, 'Error occurred: check your OpenAI API key and billing')
                 print(e)
         elif btn == 'send':
-            to = request.POST.get('to')
-            cc = request.POST.get('cc')
-            subject = request.POST.get('subject')
-            # body = emailgenerateForm(request.POST).cleaned_data.get('body')
-            try:
-                send_email(to, cc, subject,'sp')
-                messages.success(request, "Mail sent successfully")
-            except Exception as e:
-                print(e)
-                messages.error(request, "Error occurred")
+            form = emailgenerateForm(request.POST)
+            if form.is_valid():
+                user=request.user
+                to = request.POST.getlist('to')
+                cc = request.POST.getlist('cc')
+                subject = request.POST.get('subject')
+                body = form.cleaned_data.get('body')
+                attachments = request.FILES.getlist('attach')
+                print(to)
+                try:
+                    send_email(user,to, subject,body,cc,attachments)
+                    messages.success(request, "Mail sent successfully")
+                except Exception as e:
+                    print(e)
+                    messages.error(request, "Error occurred")
+            
     
     form = emailgenerateForm(initial={'body': body})
     all_email_generated = emailGenerationDB.objects.filter(user=request.user).order_by('-generated_at')
@@ -180,3 +223,4 @@ def get_email_byID(request, id):
         request.session['subject'] = content.subject
         request.session['body'] = content.body
     return HttpResponseRedirect(reverse('aiservice:send_email'))
+
